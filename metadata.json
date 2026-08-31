@@ -1,0 +1,6 @@
+{
+  "name": "Bill Less America - Lower Bills. Better Life.",
+  "description": "Bill Less America reviews and negotiates your internet, TV, cable, and phone bills. Lower monthly bills on services you already use.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
