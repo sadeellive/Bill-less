@@ -6,20 +6,11 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Step 2: Serve static assets via Nginx
-FROM nginx:alpine
-
-# Configure Nginx to bind to Cloud Run PORT environment variable
-RUN echo 'server { \
-    listen 8080; \
-    location / { \
-        root /usr/share/nginx/html; \
-        index index.html index.htm; \
-        try_files $uri $uri/ /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
-
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Step 2: Serve using lightweight 'serve'
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", "dist", "-l", "8080"]
