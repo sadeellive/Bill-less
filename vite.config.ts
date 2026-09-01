@@ -15,3 +15,4 @@ export default defineConfig({
     allowedHosts: ['billlessamerica.com', '.billlessamerica.com', true],
   },
 });
+ 
