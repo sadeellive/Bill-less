@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Clock, ArrowRight, BookOpen, PhoneCall } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, PhoneCall, ArrowRight, Share2 } from 'lucide-react';
 import { resourcesList } from '../data/siteContent';
 
 interface ResourceDetailPageProps {
@@ -8,126 +8,84 @@ interface ResourceDetailPageProps {
   onOpenCallModal: () => void;
 }
 
-export const ResourceDetailPage: React.FC<ResourceDetailPageProps> = ({ slug, navigate, onOpenCallModal }) => {
-  const article = resourcesList.find((r) => r.slug === slug) || resourcesList[0];
-  const related = resourcesList.filter((r) => r.slug !== article.slug).slice(0, 2);
-
-  const handleNav = (path: string, e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+export const ResourceDetailPage: React.FC<ResourceDetailPageProps> = ({ slug, navigate }) => {
+  const resource = resourcesList.find((r) => r.slug === slug) || resourcesList[0];
 
   return (
-    <div className="space-y-12 py-12">
-      {/* Back Link */}
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <button
-          type="button"
-          onClick={() => handleNav('/resources')}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="size-4" />
-          <span>Back to all guides</span>
-        </button>
-      </div>
+    <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-8">
+      <button
+        type="button"
+        onClick={() => navigate('/resources')}
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#64707A] hover:text-[#0D1B2A] transition-colors"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Guides</span>
+      </button>
 
-      {/* Article Header */}
-      <article className="mx-auto max-w-4xl px-4 sm:px-6">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary mb-3">
-          <span>{article.category}</span>
-          <span>·</span>
-          <span className="flex items-center gap-1 text-muted-foreground">
-            <Clock className="size-3.5" /> {article.readTime}
+      <header className="space-y-4 border-b border-slate-200 pb-6">
+        <div className="flex items-center gap-3 text-xs font-bold">
+          <span className="bg-red-50 text-[#D71920] px-2.5 py-1 rounded-md uppercase tracking-wider">
+            {resource.category}
           </span>
+          <span className="text-[#64707A] flex items-center gap-1">
+            <Clock className="size-3.5" />
+            <span>{resource.readTime}</span>
+          </span>
+          <span className="text-[#64707A]">· {resource.date}</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
-          {article.title}
+        <h1 className="font-display text-2xl sm:text-4xl font-extrabold text-[#0D1B2A] leading-tight">
+          {resource.title}
         </h1>
 
-        <p className="mt-4 text-lg text-muted-foreground leading-relaxed border-b border-border pb-8">
-          {article.description}
+        <p className="text-base text-[#64707A] leading-relaxed">
+          {resource.summary}
         </p>
+      </header>
 
-        {/* Article Body */}
-        <div className="mt-8 space-y-10">
-          {article.body.map((section, idx) => (
-            <section key={idx} className="space-y-4">
-              <h2 className="font-display text-2xl font-bold text-foreground">
-                {section.heading}
+      {/* Guide Content Render */}
+      <div className="prose prose-slate max-w-none text-sm sm:text-base leading-relaxed text-[#0D1B2A] space-y-6">
+        {resource.content.split('\n\n').map((block, idx) => {
+          if (block.startsWith('### ')) {
+            return (
+              <h2 key={idx} className="font-display text-xl font-bold text-[#0D1B2A] pt-4">
+                {block.replace('### ', '')}
               </h2>
-              {section.paragraphs.map((p, pIdx) => (
-                <p key={pIdx} className="text-base text-foreground/90 leading-relaxed">
-                  {p}
-                </p>
-              ))}
-              {section.bullets && (
-                <ul className="space-y-2 pt-2">
-                  {section.bullets.map((b, bIdx) => (
-                    <li key={bIdx} className="flex items-start gap-2.5 text-sm text-foreground/80">
-                      <span className="size-1.5 rounded-full bg-teal shrink-0 mt-2"></span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
-        </div>
+            );
+          }
+          if (block.startsWith('> ')) {
+            return (
+              <blockquote key={idx} className="border-l-4 border-[#D71920] bg-slate-50 p-4 rounded-r-xl text-sm italic text-[#0D1B2A]">
+                {block.replace('> ', '')}
+              </blockquote>
+            );
+          }
+          return <p key={idx} className="text-[#64707A]">{block}</p>;
+        })}
+      </div>
 
-        {/* In-Article Call Assistance Card */}
-        <div className="mt-12 p-6 rounded-2xl bg-red-50 border border-red-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="font-bold text-base text-foreground">Need help deciphering your statement?</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Talk directly with a Bill Less America review specialist today.
-            </p>
-          </div>
+      {/* Action CTA */}
+      <div className="rounded-3xl bg-[#0D1B2A] p-8 text-center text-white space-y-4 mt-12">
+        <h3 className="text-xl font-bold">Want our experts to handle your negotiation?</h3>
+        <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
+          We audit your statement and craft a tailored action plan for a flat $29.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <button
             type="button"
-            onClick={onOpenCallModal}
-            className="px-5 py-2.5 rounded-xl bg-[#D71920] text-white font-bold text-xs hover:bg-[#b5141a] flex items-center gap-2 shrink-0 shadow-sm"
+            onClick={() => navigate('/upload')}
+            className="px-6 py-3 rounded-xl bg-[#D71920] font-bold text-sm text-white hover:bg-[#b5141a]"
           >
-            <PhoneCall className="size-3.5" />
-            <span>Call (832) 554-6367</span>
+            Start Bill Review ($29)
           </button>
+          <a
+            href="tel:+18325546367"
+            className="px-6 py-3 rounded-xl border border-slate-700 bg-slate-800 font-bold text-sm text-white hover:bg-slate-700"
+          >
+            Call (832) 554-6367
+          </a>
         </div>
-      </article>
-
-      {/* Related Articles */}
-      <section className="mx-auto max-w-4xl px-4 sm:px-6 pt-10 border-t border-border">
-        <h2 className="font-display text-xl font-bold text-foreground mb-6">
-          Related Guides
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {related.map((r) => (
-            <div key={r.slug} className="rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
-              <div>
-                <p className="text-xs font-bold text-primary uppercase tracking-wider">{r.category}</p>
-                <h3 className="font-display text-lg font-bold text-foreground mt-1">
-                  <a
-                    href={`/resources/${r.slug}`}
-                    onClick={(e) => handleNav(`/resources/${r.slug}`, e)}
-                    className="hover:text-primary"
-                  >
-                    {r.title}
-                  </a>
-                </h3>
-                <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{r.description}</p>
-              </div>
-              <a
-                href={`/resources/${r.slug}`}
-                onClick={(e) => handleNav(`/resources/${r.slug}`, e)}
-                className="text-xs font-bold text-primary hover:underline flex items-center gap-1 mt-4"
-              >
-                <span>Read guide</span>
-                <ArrowRight className="size-3.5" />
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+      </div>
+    </article>
   );
 };

@@ -1,117 +1,85 @@
 import React from 'react';
 
 interface BrandLogoProps {
-  variant?: 'light' | 'dark'; // light: for white/light background, dark: for navy/dark background
+  variant?: 'light' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
   showTagline?: boolean;
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
 }
 
 export const BrandMarkIcon: React.FC<{ className?: string }> = ({ className = 'w-9 h-9' }) => {
   return (
     <svg
-      viewBox="0 0 100 90"
+      viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
-      {/* Background Waving Flag Stripes */}
-      <g>
-        {/* Red stripe 1 */}
-        <path
-          d="M12 20 C28 14, 45 28, 62 20 C72 15, 80 17, 86 18 L86 28 C78 26, 70 24, 60 29 C44 36, 28 23, 12 30 Z"
-          fill="#D71920"
-        />
-        {/* White stripe 1 */}
-        <path
-          d="M12 30 C28 23, 44 36, 60 29 C70 24, 78 26, 86 28 L86 37 C78 35, 70 33, 60 38 C44 45, 28 32, 12 39 Z"
-          fill="#FFFFFF"
-        />
-        {/* Red stripe 2 */}
-        <path
-          d="M12 39 C28 32, 44 45, 60 38 C70 33, 78 35, 86 37 L86 46 C78 44, 70 42, 60 47 C44 54, 28 41, 12 48 Z"
-          fill="#D71920"
-        />
-        {/* White stripe 2 */}
-        <path
-          d="M12 48 C28 41, 44 54, 60 47 C70 42, 78 44, 86 46 L86 55 C78 53, 70 51, 60 56 C44 63, 28 50, 12 57 Z"
-          fill="#FFFFFF"
-        />
-        {/* Red stripe 3 */}
-        <path
-          d="M12 57 C28 50, 44 63, 60 56 C70 51, 78 53, 86 55 L86 64 C78 62, 70 60, 60 65 C44 72, 28 59, 12 66 Z"
-          fill="#D71920"
-        />
-      </g>
+      <defs>
+        <linearGradient id="shieldGradRed" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#E5232A" />
+          <stop offset="100%" stopColor="#B5141A" />
+        </linearGradient>
+        <linearGradient id="shieldGradNavy" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#1B314B" />
+          <stop offset="100%" stopColor="#0D1B2A" />
+        </linearGradient>
+        <filter id="shieldShadow" x="-10%" y="-10%" width="130%" height="130%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000" floodOpacity="0.25" />
+        </filter>
+      </defs>
 
-      {/* Flag Canton (Navy Square with Stars) */}
-      <g>
-        <path
-          d="M12 18 C28 12, 42 24, 52 20 L52 52 C42 55, 28 44, 12 50 Z"
-          fill="#0D1B2A"
-        />
-        {/* White Stars */}
-        <circle cx="20" cy="25" r="2" fill="#FFFFFF" />
-        <circle cx="32" cy="23" r="2" fill="#FFFFFF" />
-        <circle cx="44" cy="25" r="2" fill="#FFFFFF" />
-        <circle cx="26" cy="32" r="2" fill="#FFFFFF" />
-        <circle cx="38" cy="31" r="2" fill="#FFFFFF" />
-        <circle cx="20" cy="39" r="2" fill="#FFFFFF" />
-        <circle cx="32" cy="40" r="2" fill="#FFFFFF" />
-        <circle cx="44" cy="38" r="2" fill="#FFFFFF" />
-      </g>
+      {/* Main Shield Crest Base */}
+      <path
+        d="M50 8C28 8 16 16 16 28C16 62 42 85 50 92C58 85 84 62 84 28C84 16 72 8 50 8Z"
+        fill="url(#shieldGradNavy)"
+        stroke="#FFFFFF"
+        strokeWidth="2.5"
+        filter="url(#shieldShadow)"
+      />
 
-      {/* The Bill / Statement Document */}
-      <g filter="url(#drop-shadow)">
-        {/* White bill rectangle with folded corner */}
-        <path
-          d="M48 26 L68 26 L76 34 L76 72 L48 72 Z"
-          fill="#FFFFFF"
-          stroke="#0D1B2A"
-          strokeWidth="3.5"
-          strokeLinejoin="round"
-        />
-        {/* Folded top-right corner */}
-        <path
-          d="M68 26 L68 34 L76 34"
-          fill="#E2E8F0"
-          stroke="#0D1B2A"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-        {/* Red Dollar Sign inside bill */}
-        <text
-          x="62"
-          y="54"
-          fill="#D71920"
-          fontSize="24"
-          fontWeight="900"
-          fontFamily="Montserrat, sans-serif"
-          textAnchor="middle"
-        >
-          $
-        </text>
-        {/* Bill horizontal lines */}
-        <line x1="55" y1="62" x2="69" y2="62" stroke="#64707A" strokeWidth="2.5" strokeLinecap="round" />
-      </g>
+      {/* Red Accent Wing */}
+      <path
+        d="M50 14C32 14 22 21 22 30C22 58 44 78 50 84C56 78 78 58 78 30C78 21 68 14 50 14Z"
+        fill="url(#shieldGradRed)"
+      />
 
-      {/* Navy Downward Arrow on lower corner */}
-      <g>
-        <path
-          d="M62 66 L62 76 L55 76 L66 87 L77 76 L70 76 L70 66 Z"
-          fill="#0D1B2A"
-        />
-      </g>
+      {/* Downward Slashing Savings Arrow */}
+      <path
+        d="M32 38L50 62L68 38H56V26H44V38H32Z"
+        fill="#FFFFFF"
+        stroke="#0D1B2A"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+
+      {/* Dollar Symbol in Arrow Base */}
+      <text
+        x="50"
+        y="49"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill="#0D1B2A"
+        fontFamily="system-ui, -apple-system, sans-serif"
+        fontWeight="900"
+        fontSize="17"
+      >
+        $
+      </text>
+
+      {/* Small Stars representing American Consumer Protection */}
+      <polygon points="34,22 35.5,25.5 39,26 36.5,28.5 37,32 34,30 31,32 31.5,28.5 29,26 32.5,25.5" fill="#FFFFFF" />
+      <polygon points="66,22 67.5,25.5 71,26 68.5,28.5 69,32 66,30 63,32 63.5,28.5 61,26 64.5,25.5" fill="#FFFFFF" />
     </svg>
   );
 };
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   variant = 'light',
+  size = 'md',
   showTagline = true,
   className = '',
-  size = 'md',
 }) => {
   const isDark = variant === 'dark';
 
@@ -140,7 +108,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         <BrandMarkIcon className={iconSizes[size]} />
       </div>
 
-      {/* Typography */}
+      {/* Text Branding */}
       <div className="flex flex-col justify-center leading-none">
         <div className={`font-display font-black tracking-tight flex items-center gap-1 sm:gap-1.5 whitespace-nowrap ${titleSizes[size]}`}>
           <span className={isDark ? 'text-white' : 'text-[#0D1B2A]'}>BILL LESS</span>

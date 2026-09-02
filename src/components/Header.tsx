@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Menu, X } from 'lucide-react';
+import { Phone, Menu, X, ShieldCheck, ChevronRight } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 
 interface HeaderProps {
@@ -12,54 +12,66 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, navigate, onOpenCal
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { path: '/how-it-works', label: 'How it works' },
-    { path: '/pricing', label: 'Pricing' },
-    { path: '/providers', label: 'Providers' },
-    { path: '/calculator', label: 'Estimator' },
-    { path: '/resources', label: 'Resources' },
-    { path: '/about', label: 'About' },
+    { label: 'How It Works', path: '/how-it-works' },
+    { label: 'Bills We Negotiate', path: '/#statements' },
+    { label: 'Results', path: '/negotiation-result' },
+    { label: 'Savings Calculator', path: '/estimator' },
+    { label: 'Pricing', path: '/pricing' },
+    { label: 'Consumer Guides', path: '/resources' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   const handleNavClick = (path: string, e: React.MouseEvent) => {
     e.preventDefault();
-    navigate(path);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(path);
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#d0d5dd] bg-white/95 backdrop-blur-md transition-colors shadow-sm">
-      <a 
-        href="#main" 
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-[#D71920] focus:px-3 focus:py-2 focus:text-sm focus:text-white"
-      >
-        Skip to main content
-      </a>
-
-      <div className="mx-auto flex h-[74px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        {/* Brand Logo */}
+    <header className="sticky top-0 z-40 w-full border-b border-[#d0d5dd] bg-white/95 backdrop-blur-md shadow-xs">
+      {/* Top Banner for Trust & Fast Direct Dialing */}
+      <div className="bg-[#0D1B2A] py-1.5 px-4 text-center text-xs font-semibold text-slate-200 flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
+        <span className="inline-flex items-center gap-1 text-emerald-400 font-bold">
+          <ShieldCheck className="size-3.5" />
+          <span>Independent Consumer Advocate</span>
+        </span>
+        <span className="hidden md:inline text-slate-500">|</span>
+        <span className="hidden sm:inline">Zero fee-sharing with telecom providers</span>
+        <span className="text-slate-500">|</span>
         <a 
-          href="/" 
-          onClick={(e) => handleNavClick('/', e)} 
-          aria-label="Bill Less America home"
-          className="focus-ring rounded-md group flex items-center transition-opacity hover:opacity-95"
+          href="tel:+18325546367" 
+          className="inline-flex items-center gap-1 font-bold text-white hover:text-red-300 transition-colors"
+        >
+          <Phone className="size-3 text-[#D71920]" />
+          <span>Call: (832) 554-6367</span>
+        </a>
+      </div>
+
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+        {/* Brand Logo */}
+        <a
+          href="/"
+          onClick={(e) => handleNavClick('/', e)}
+          className="focus-ring group rounded-lg transition-transform hover:opacity-95"
+          aria-label="Bill Less America Home"
         >
           <BrandLogo variant="light" size="md" showTagline={true} />
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-1 xl:gap-2 lg:flex" aria-label="Main Navigation">
           {navLinks.map((link) => {
-            const isActive = currentPath === link.path || (link.path !== '/' && currentPath.startsWith(link.path));
+            const isActive = currentPath === link.path;
             return (
               <a
                 key={link.path}
                 href={link.path}
                 onClick={(e) => handleNavClick(link.path, e)}
-                className={`focus-ring text-sm font-semibold transition-colors ${
-                  isActive 
-                    ? 'text-[#D71920]' 
-                    : 'text-[#0D1B2A] hover:text-[#D71920]'
+                className={`focus-ring rounded-lg px-2.5 py-1.5 text-xs xl:text-sm font-semibold transition-colors ${
+                  isActive
+                    ? 'bg-[#F2F4F7] text-[#0D1B2A]'
+                    : 'text-[#64707A] hover:text-[#0D1B2A] hover:bg-[#F2F4F7]'
                 }`}
               >
                 {link.label}
@@ -74,12 +86,21 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, navigate, onOpenCal
           <button
             type="button"
             onClick={onOpenCallModal}
-            className="focus-ring inline-flex items-center gap-2 rounded-full bg-[#D71920] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-red-200 hover:bg-[#b5141a] transition-all active:scale-95 cursor-pointer"
-            title="Call Bill Less America Specialists"
+            className="focus-ring group inline-flex items-center gap-2 rounded-full bg-[#D71920] px-4 py-2 text-sm font-bold text-white shadow-sm shadow-red-200 transition-all hover:bg-[#b5141a] active:scale-95"
           >
-            <Phone className="size-4" />
-            <span>Call Now</span>
+            <Phone className="size-4 transition-transform group-hover:rotate-12" />
+            <span>(832) 554-6367</span>
           </button>
+
+          {/* Start Review CTA */}
+          <a
+            href="/upload"
+            onClick={(e) => handleNavClick('/upload', e)}
+            className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[#0D1B2A] px-4 py-2 text-sm font-bold text-white transition-all hover:bg-[#1B314B]"
+          >
+            <span>Start Review</span>
+            <ChevronRight className="size-4 text-slate-400" />
+          </a>
         </div>
 
         {/* Mobile Menu Toggle Button */}
@@ -94,28 +115,27 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, navigate, onOpenCal
 
           <button
             type="button"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="focus-ring inline-flex size-10 items-center justify-center rounded-lg border border-[#d0d5dd] text-[#0D1B2A] hover:bg-[#F2F4F7]"
+            className="focus-ring inline-flex items-center justify-center rounded-lg p-2 text-[#0D1B2A] hover:bg-[#F2F4F7]"
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle navigation menu"
           >
-            <span className="sr-only">Open menu</span>
-            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {mobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div id="mobile-nav" className="border-t border-[#d0d5dd] bg-white lg:hidden animate-in slide-in-from-top-2 duration-150">
-          <nav aria-label="Mobile" className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
-            <ul className="flex flex-col space-y-1">
+        <div className="border-b border-[#d0d5dd] bg-white px-4 py-5 shadow-lg lg:hidden">
+          <nav className="flex flex-col space-y-1.5" aria-label="Mobile Navigation">
+            <ul className="space-y-1">
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <a
                     href={link.path}
                     onClick={(e) => handleNavClick(link.path, e)}
-                    className="focus-ring block rounded-lg px-3 py-2.5 text-base font-semibold text-[#0D1B2A] hover:bg-[#F2F4F7] hover:text-[#D71920]"
+                    className="focus-ring block rounded-lg px-3 py-2.5 text-base font-semibold text-[#0D1B2A] hover:bg-[#F2F4F7]"
                   >
                     {link.label}
                   </a>
@@ -127,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, navigate, onOpenCal
                   onClick={(e) => handleNavClick('/upload', e)}
                   className="focus-ring block rounded-lg px-3 py-2.5 text-base font-semibold text-[#D71920] hover:bg-red-50"
                 >
-                  Start saving today
+                  Start a Bill Review ($29)
                 </a>
               </li>
             </ul>

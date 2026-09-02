@@ -1,24 +1,23 @@
 export interface Provider {
   slug: string;
   name: string;
-  category: 'internet' | 'wireless' | 'tv';
-  summary: string;
-  commonCharges: { name: string; type: string; description: string }[];
-  questionChecklist: string[];
-  tips: string[];
+  category: string;
+  typicalSavings: string;
+  commonFees: string[];
+  description: string;
+  negotiationTips: string[];
+  benchmarkPrice: string;
+  logoLetter: string;
 }
 
-export interface ResourceArticle {
+export interface Resource {
   slug: string;
   title: string;
-  description: string;
-  readTime: string;
   category: string;
-  body: {
-    heading: string;
-    paragraphs: string[];
-    bullets?: string[];
-  }[];
+  readTime: string;
+  summary: string;
+  content: string;
+  date: string;
 }
 
 export interface FAQItem {
@@ -27,498 +26,241 @@ export interface FAQItem {
   category?: string;
 }
 
-export interface PricingTier {
-  name: string;
-  price: string;
-  unit: string;
-  for: string;
-  highlight?: boolean;
-  features: string[];
-}
-
 export const providersList: Provider[] = [
   {
     slug: 'xfinity',
-    name: 'Xfinity',
-    category: 'internet',
-    summary: 'Residential internet and cable bills often combine promotional pricing, equipment rental and regional line items that expire on different timelines.',
-    commonCharges: [
-      { name: 'Gigabit / Connect Internet Tier', type: 'Recurring base', description: 'The fundamental internet service plan rate.' },
-      { name: 'xFi Complete Gateway Rental', type: 'Recurring hardware', description: 'Monthly modem/router hardware lease, often $15–$25/mo.' },
-      { name: 'Regional Sports & Broadcast TV Fee', type: 'Recurring surcharge', description: 'Provider surcharge that scales up every year.' },
-      { name: 'Unlimited Data Add-on', type: 'Optional add-on', description: 'Additional data cap removal fee.' },
-      { name: 'Expired 12/24-mo Promotional Discount', type: 'Credit expired', description: 'Discount line item that drops off automatically after contract.' },
+    name: 'Xfinity / Comcast',
+    category: 'Cable & Internet',
+    typicalSavings: '$35 – $75 / mo',
+    benchmarkPrice: '$55 – $80 / mo for 500Mbps–1Gbps',
+    commonFees: [
+      'xFi Complete / Gateway Rental ($15 – $25/mo)',
+      'Broadcast TV Fee ($18 – $29/mo)',
+      'Regional Sports Fee ($12 – $19/mo)',
+      'Late payment & reactivation fees ($10 – $30)'
     ],
-    questionChecklist: [
-      'When did my promotional discount expire or when is it scheduled to expire?',
-      'Can I switch to customer-owned modem equipment to eliminate the $15-$25/mo rental?',
-      'Are there newer everyday pricing tiers available for existing customers?',
-      'Which add-on packs (e.g. streaming packs, security) are currently active and unused?'
+    description: 'Xfinity frequently rolls off 12-month and 24-month promotional rates, causing monthly statements to rise abruptly by 40% to 80% without clear customer warning.',
+    negotiationTips: [
+      'Ask specifically for the active "Loyalty / Customer Retention" department rather than billing.',
+      'Audit your gateway equipment: purchasing a certified DOCSIS 3.1 modem saves $180–$300 annually.',
+      'Check if ACP or local municipal competitor fiber rates can be matched on your current tier.'
     ],
-    tips: [
-      'Xfinity frequently rolls off 12-month promotional credits without notifying you in the body of an email.',
-      'Check if you are renting an xFi Gateway when an approved retail DOCSIS 3.1 modem would pay for itself in 6–9 months.',
-      'Always ask for the "Loyalty / Customer Retention" department rather than basic billing support.'
-    ]
-  },
-  {
-    slug: 'spectrum',
-    name: 'Spectrum',
-    category: 'internet',
-    summary: 'Spectrum bills typically reflect bundled discounts that roll off in stages at month 12 and month 24, alongside standard equipment and WiFi fees.',
-    commonCharges: [
-      { name: 'Spectrum Internet Ultra/Gig', type: 'Recurring base', description: 'Standard internet rate after promotional discount steps.' },
-      { name: 'WiFi Service Fee', type: 'Recurring optional', description: 'Separate fee charged specifically for activating the router WiFi broadcast.' },
-      { name: 'Broadcast TV Surcharge', type: 'Recurring surcharge', description: 'Steadily increasing programming transmission fee on TV packages.' },
-      { name: 'Spectrum TV Select Package', type: 'Recurring bundle', description: 'Cable television tier often bundled during initial signup.' }
-    ],
-    questionChecklist: [
-      'Is my current bill reflecting standard rate card or is a promotional credit still applied?',
-      'Can I avoid the separate WiFi router charge by using my own wireless router?',
-      'What are the current loyalty promotions for existing accounts in my market?'
-    ],
-    tips: [
-      'Spectrum provides free modem units, but charges $5–$7/mo for WiFi router functionality.',
-      'Spectrum bills have step-up pricing at 12 and 24 months before hitting full standard rate card.'
-    ]
-  },
-  {
-    slug: 'cox',
-    name: 'Cox',
-    category: 'internet',
-    summary: 'Cox statements often include Panoramic Wifi equipment fees, data usage charges, and expiring contract credits.',
-    commonCharges: [
-      { name: 'Panoramic Wifi Gateway', type: 'Recurring hardware', description: 'Monthly rental fee for Cox hardware.' },
-      { name: 'Cox Complete Care', type: 'Optional tech support', description: 'Monthly insurance fee for wiring and technical visits.' },
-      { name: '500GB / Unlimited Data Plan', type: 'Optional data add-on', description: 'Additional charge for high-volume data allowances.' }
-    ],
-    questionChecklist: [
-      'What date does my term agreement end?',
-      'Do I have Cox Complete Care on my bill and is it required?',
-      'What is my monthly data usage compared to the standard data limit?'
-    ],
-    tips: [
-      'Check whether Cox Complete Care was added during a previous technician dispatch and never removed.'
-    ]
-  },
-  {
-    slug: 'optimum',
-    name: 'Optimum',
-    category: 'internet',
-    summary: 'Optimum (Altice) statements feature gateway rentals, network enhancement fees, and auto-pay incentive adjustments.',
-    commonCharges: [
-      { name: 'Altice Gateway / WiFi 6 Extender', type: 'Recurring hardware', description: 'Hardware lease per unit.' },
-      { name: 'Network Enhancement Fee', type: 'Provider fee', description: 'Internal operational infrastructure fee.' },
-      { name: 'Paper Statement Fee', type: 'Administrative', description: 'Monthly fee for physical paper bill delivery.' }
-    ],
-    questionChecklist: [
-      'Am I receiving the full AutoPay & Paperless billing discount ($5–$10/mo)?',
-      'Are there inactive cable boxes or WiFi extenders still billed to the account?',
-      'What 1-year loyalty retention rate is available for my speed tier?'
-    ],
-    tips: [
-      'Verify that unused secondary TV boxes or extenders returned to a store were officially cleared from the serial number ledger.'
-    ]
+    logoLetter: 'X'
   },
   {
     slug: 'att',
-    name: 'AT&T',
-    category: 'wireless',
-    summary: 'AT&T statements for wireless and fiber often include installment plans, device protection, autopay discounts, and line access fees.',
-    commonCharges: [
-      { name: 'AT&T Unlimited Premium / Extra', type: 'Recurring plan', description: 'Base plan tier per active voice line.' },
-      { name: 'AT&T Protect Advantage (Insurance)', type: 'Optional insurance', description: '$14–$17/mo per line device insurance.' },
-      { name: 'Next Up Early Upgrade Option', type: 'Optional feature', description: '$6/mo add-on allowing early device trade-in.' },
-      { name: 'Installment Device Balance', type: 'Equipment installment', description: 'Monthly phone financing with or without bill credits.' }
+    name: 'AT&T / AT&T Fiber',
+    category: 'Fiber, Wireless & Internet',
+    typicalSavings: '$25 – $65 / mo',
+    benchmarkPrice: '$55 – $80 / mo for Fiber 300–1000',
+    commonFees: [
+      'Administrative Fee per line ($3.30/line on wireless)',
+      'Regulatory Cost Recovery Fee',
+      'Missing AutoPay / Paperless Discount ($5–$10/line difference with debit/ACH vs credit)',
+      'Device Protection / Insurance ($14 – $17/line)'
     ],
-    questionChecklist: [
-      'Do any paid-off devices still have insurance or Next Up add-ons enabled?',
-      'Is the AutoPay discount being maximized with debit/bank account vs credit card?',
-      'Are all promotional trade-in credits applying correctly each month?'
+    description: 'AT&T wireless accounts often carry legacy protection features and missed AutoPay tier requirements (switch to debit/checking to reclaim $5-$10/line discounts).',
+    negotiationTips: [
+      'Link eligible Fiber and Wireless accounts to trigger the 20% cross-product monthly credit.',
+      'Audit legacy insurance: cancel third-party coverage on paid-off devices older than 2 years.',
+      'Verify corporate / union / alumni signature discount codes on your account.'
     ],
-    tips: [
-      'AT&T changed AutoPay policy so that credit cards only receive $5/line discount while debit/checking receives $10/line.',
-      'Check if older phones that are fully paid off still have insurance billed monthly.'
-    ]
+    logoLetter: 'A'
+  },
+  {
+    slug: 'spectrum',
+    name: 'Spectrum (Charter)',
+    category: 'Cable, Internet & Mobile',
+    typicalSavings: '$30 – $70 / mo',
+    benchmarkPrice: '$49.99 – $69.99 / mo for 300–500Mbps',
+    commonFees: [
+      'Broadcast TV Surcharge ($22 – $25.75/mo)',
+      'WiFi Service Fee ($5 – $7/mo on standard standalone routers)',
+      'Outdated Cable Box Rental Fees ($10.99/box per month)',
+      'Post-promo rate adjustments of +$30/mo after month 12 and month 24'
+    ],
+    description: 'Spectrum relies heavily on step-up promotional pricing where discounts expire in stages. Cable box fees can be replaced by using the free Spectrum TV app on smart TVs.',
+    negotiationTips: [
+      'Request the Spectrum One promotional renewal if competitor fiber has expanded in your ZIP.',
+      'Return physical set-top boxes and switch to Apple TV, Roku, or Samsung TV native apps.',
+      'Opt out of the $7/mo standalone WiFi charge by supplying your own WiFi 6 router.'
+    ],
+    logoLetter: 'S'
   },
   {
     slug: 'verizon',
-    name: 'Verizon',
-    category: 'wireless',
-    summary: 'Verizon wireless statements itemize plan perks, Mobile Protect insurance, line access charges, and 36-month device financing credits.',
-    commonCharges: [
-      { name: 'Unlimited Plus / Welcome', type: 'Recurring plan', description: 'Current or legacy mix-and-match tier.' },
-      { name: 'Verizon Mobile Protect / Wireless Protection', type: 'Optional insurance', description: '$17–$19/mo device protection.' },
-      { name: 'Perk Add-ons (Disney Bundle, Apple One)', type: 'Subscription add-on', description: '$10/mo perks added during checkout.' },
-      { name: 'Economic Adjustment Charge / Regulatory Fee', type: 'Carrier surcharge', description: 'Telco administrative recovery charge.' }
+    name: 'Verizon / Fios',
+    category: 'Wireless & 5G Home / Fios',
+    typicalSavings: '$20 – $55 / mo',
+    benchmarkPrice: '$49.99 – $89.99 / mo for Fios 300–1Gbps',
+    commonFees: [
+      'Telco Recovery Charge & Admin Charge ($3.30/line)',
+      'Verizon Mobile Protect ($17 – $19/line)',
+      'Legacy Mix & Match plan surcharges',
+      'Router rental fees on older grandfathered Fios accounts ($15 – $18/mo)'
     ],
-    questionChecklist: [
-      'Are we paying for perks or streaming bundles that we already receive through other services?',
-      'Are old smartwatch or tablet connected lines still active but no longer used?',
-      'When do 36-month device installment credits conclude?'
+    description: 'Verizon Wireless often has users on older "Unlimited" tiers that carry newly imposed $3–$5/line grandfathering penalties compared to current "myPlan" options.',
+    negotiationTips: [
+      'Audit lines for old "Do More / Play More" plans vs modern "Unlimited Plus / Welcome".',
+      'Ensure Paperless + Debit ACH payment is active for $10/line discount.',
+      'Check Verizon Mobile + Home Rewards for $10–$25 monthly multi-service discounts.'
     ],
-    tips: [
-      'Check the "Connected Devices" section of your bill for old iPad or Apple Watch cellular lines ($10-$20/mo each) that no one uses.'
-    ]
+    logoLetter: 'V'
   },
   {
-    slug: 't-mobile',
-    name: 'T-Mobile',
-    category: 'wireless',
-    summary: 'T-Mobile bills emphasize taxes-included or taxes-excluded tiers, Protection 360, and monthly bill credits on device promotions.',
-    commonCharges: [
-      { name: 'Go5G Plus / Magenta / Essentials', type: 'Recurring plan', description: 'Tier determining high-speed hotspot and trade-in eligibility.' },
-      { name: 'Protection<360>', type: 'Optional insurance', description: '$13–$18/mo phone warranty & AppleCare.' },
-      { name: 'Regulatory Programs Fee (Essentials)', type: 'Surcharge (non-inclusive plans)', description: 'Taxes and fees applied to Essentials tier.' }
+    slug: 'cox',
+    name: 'Cox Communications',
+    category: 'Cable & Internet',
+    typicalSavings: '$30 – $60 / mo',
+    benchmarkPrice: '$49.99 – $70 / mo for 250–500Mbps',
+    commonFees: [
+      'Panoramic Wifi Gateway Rental ($14 – $15/mo)',
+      'Data Cap Overages ($10 per 50GB over 1.25TB limit)',
+      'Broadcast Surcharge & Regional Sports Fee',
+      'Cox Complete Care ($10/mo support subscription)'
     ],
-    questionChecklist: [
-      'Is my plan on taxes-included (Go5G) or taxes-excluded (Essentials)?',
-      'Are third-line-free or promotional line credits registering on every statement?',
-      'Are any roaming passes or international add-ons lingering after past travel?'
+    description: 'Cox frequently attaches monthly Panoramic WiFi rentals and optional tech support subscriptions that can easily be audited and removed.',
+    negotiationTips: [
+      'Check if your usage warrants the 1.25TB cap before paying for unlimited data add-ons.',
+      'Ask for loyalty retention terms matching local 5G home internet alternatives (T-Mobile/Verizon).',
+      'Cancel unnecessary recurring protection line items.'
     ],
-    tips: [
-      'T-Mobile promotional device credits require maintaining eligible rate plans; changing tiers can accidentally forfeit device credits.'
-    ]
+    logoLetter: 'C'
   },
   {
-    slug: 'frontier',
-    name: 'Frontier',
-    category: 'internet',
-    summary: 'Frontier Fiber and DSL statements include router charges, internet infrastructure surcharges, and legacy service maintenance line items.',
-    commonCharges: [
-      { name: 'FiberOptic 500/1000 Tier', type: 'Recurring base', description: 'Base synchronous fiber internet speed plan.' },
-      { name: 'Internet Infrastructure Surcharge', type: 'Provider fee', description: 'Company operational surcharge.' },
-      { name: 'Premium Tech Pro', type: 'Optional support', description: 'Monthly computer support add-on.' }
+    slug: 'tmobile',
+    name: 'T-Mobile / 5G Home',
+    category: 'Wireless & 5G Home Internet',
+    typicalSavings: '$15 – $40 / mo',
+    benchmarkPrice: '$30 – $50 / mo for 5G Home Internet with voice line',
+    commonFees: [
+      'Protection 360 Tiered Insurance ($14 – $18/line)',
+      'International / Third-Party App Subscriptions',
+      'Missed AutoPay discount ($5/line if paid via credit card instead of debit/bank)'
     ],
-    questionChecklist: [
-      'Is my address eligible for newly launched Frontier Fiber pricing?',
-      'Can non-essential tech support and security suites be removed?'
+    description: 'While T-Mobile includes taxes and fees on many plans, accounts frequently accumulate unused add-on features and credit-card AutoPay penalty fees.',
+    negotiationTips: [
+      'Verify that AutoPay is connected to a debit card or bank account to keep the $5/line discount.',
+      'Check Insider Discount codes or Work Perks for 15%–20% off Magenta/Go5G Plus plans.',
+      'Consolidate standalone data lines into free/discounted promotion lines.'
     ],
-    tips: [
-      'Frontier fiber often has major loyalty rate adjustments if newer competing fiber has entered your neighborhood.'
-    ]
-  },
-  {
-    slug: 'directv',
-    name: 'DIRECTV',
-    category: 'tv',
-    summary: 'DIRECTV satellite and stream bills often feature steep second-year price hikes, regional sports network fees, and receiver connection charges.',
-    commonCharges: [
-      { name: 'Choice / Ultimate / Premier Package', type: 'Recurring base', description: 'Channel package base tier.' },
-      { name: 'Regional Sports Network (RSN) Fee', type: 'Recurring surcharge', description: 'Up to $15.99/mo depending on ZIP code.' },
-      { name: 'Advanced Receiver Service (HD/DVR)', type: 'Recurring hardware', description: 'Fee for DVR functionality and multi-room viewing.' },
-      { name: 'Additional TV Client Fee', type: 'Hardware per-room', description: '$7/mo for each Genie mini receiver.' }
-    ],
-    questionChecklist: [
-      'What date does the promotional discount conclude?',
-      'Are there receivers in guest bedrooms that can be disconnected?',
-      'Is the Regional Sports Network fee applicable if our household does not watch live sports?'
-    ],
-    tips: [
-      'DIRECTV bills almost double after the initial 12-month promotional contract period. Contacting before month 12 is essential.'
-    ]
-  },
-  {
-    slug: 'dish',
-    name: 'DISH',
-    category: 'tv',
-    summary: 'DISH Network statements combine 2-year TV price guarantees with Hopper DVR fees, Joey client fees, and DISH Protect maintenance packages.',
-    commonCharges: [
-      { name: 'America\'s Top 120 / 200 Plan', type: 'Recurring base', description: 'Base channel tier.' },
-      { name: 'Hopper 3 DVR Service Fee', type: 'Recurring hardware', description: 'Master DVR rental and service charge.' },
-      { name: 'Joey Client Connection Fee', type: 'Hardware per-room', description: 'Monthly fee per secondary television unit.' },
-      { name: 'DISH Protect Silver/Gold', type: 'Optional insurance', description: 'Equipment and in-home wiring protection.' }
-    ],
-    questionChecklist: [
-      'When is the 2-Year Price Guarantee expiration date?',
-      'Can DISH Protect be cancelled without impacting hardware warranty?',
-      'What credits are available to match streaming alternatives?'
-    ],
-    tips: [
-      'DISH Protect is frequently added for free for 6 months during installation and converts to $11.99/mo automatically.'
-    ]
+    logoLetter: 'T'
   }
 ];
 
-export const resourcesList: ResourceArticle[] = [
+export const resourcesList: Resource[] = [
   {
-    slug: 'how-to-read-your-internet-bill',
-    title: 'How to read your internet bill line by line',
-    description: 'A plain-language walkthrough of the sections on a typical U.S. internet statement and what each line item usually represents.',
+    slug: 'how-to-negotiate-xfinity-cable-internet-bill',
+    title: 'How to Negotiate Your Xfinity Bill in 2026 (Word-for-Word Script)',
+    category: 'Negotiation Strategy',
     readTime: '6 min read',
-    category: 'Bill basics',
-    body: [
-      {
-        heading: 'Start with the summary page',
-        paragraphs: [
-          'Most statements open with a summary that shows the previous balance, payments received, new charges and the amount due. The summary is useful for spotting a change month over month, but it rarely explains why a total moved.',
-          'If your total changed and you did not change your service, the explanation is almost always further into the statement on pages 2 or 3.'
-        ]
-      },
-      {
-        heading: 'Separate recurring charges from one-time charges',
-        paragraphs: [
-          'Recurring charges repeat every cycle: the service tier, equipment rental and any add-ons. One-time charges appear once: installation, a service call, a late fee or a prorated adjustment after a mid-cycle change.'
-        ],
-        bullets: [
-          'Recurring: plan tier, equipment rental, add-on packages, per-line access charges',
-          'One-time: activation, installation, prorated adjustments, late fees',
-          'Taxes and government fees: set by jurisdiction, not by the provider'
-        ]
-      },
-      {
-        heading: 'Find the promotional end date',
-        paragraphs: [
-          'Promotional pricing usually appears as a credit applied against the standard rate. When the credit ends, the standard rate remains. Many statements print the promotional end date in small type near the service description (e.g. "Includes $30 discount through Oct 14, 2026").',
-          'Knowing that date in advance is the single most useful piece of information on the statement to avoid unexpected bill shock.'
-        ]
-      },
-      {
-        heading: 'Write down your questions before you call',
-        paragraphs: [
-          'A short written list of specific line items is far more effective than a general request for a lower bill. Bring the exact charge names and amounts as they appear on the statement.'
-        ]
-      }
-    ]
+    date: 'Updated Feb 2026',
+    summary: 'The exact step-by-step retention phone script, competitor comparison formulas, and gateway equipment check to reduce your Comcast bill by $30 to $70 every month.',
+    content: `
+### Why Your Xfinity Bill Jumps
+
+Comcast/Xfinity uses promotional term contracts (typically 12 or 24 months). Once that period ends, your monthly bill defaults to the standard "everyday rate," which can increase your monthly cost by $30 to $75 for the exact same speed and channels.
+
+### The 4 Step Audit Before You Call
+
+1. **Locate your promotional discount line item**: Look on page 3 of your statement under "Regular Monthly Charges". Check if there is an expiration date shown.
+2. **Audit equipment rental fees**: Xfinity charges $15/month for standard xFi Gateways. Purchasing your own DOCSIS 3.1 modem ($120–$160 one-time) eliminates this fee forever.
+3. **Check local competitor speeds**: Look up AT&T Fiber, Quantum Fiber, Google Fiber, or T-Mobile 5G Home Internet in your ZIP code. Having their exact pricing ($50-$70/mo) gives you leverage.
+4. **Identify broadcast & regional sports fees**: If you have cable TV, these surcharges often add $30–$45/mo on top of advertised rates.
+
+### The Word-for-Word Retention Script
+
+When calling **(832) 554-6367** or your provider's retention department, say:
+
+> *"Hello, I am reviewing my household telecom budget and noticed my promotional rate has rolled off. My bill increased from $65 to $115, whereas competitor fiber in my area is offering equivalent speeds at $60 with no equipment rental. I have been a loyal customer for [X] years and would prefer not to go through the switching hassle. What active retention promotions or loyalty tier credits can we apply to bring my statement back down to my previous rate?"*
+
+If the first representative says no: politely ask to speak with the Customer Loyalty / Account Retention team.
+    `
   },
   {
-    slug: 'questions-to-ask-your-provider',
-    title: 'Questions to ask your provider before you renew',
-    description: 'A checklist of neutral, specific questions you can ask when a promotional period ends or a contract term comes up for renewal.',
+    slug: 'avoid-spectrum-broadcast-tv-and-wifi-fees',
+    title: 'How to Eliminate Spectrum WiFi Fees & Cut Cable Box Charges',
+    category: 'Fee Reduction',
     readTime: '5 min read',
-    category: 'Preparation',
-    body: [
-      {
-        heading: 'Ask about dates, not discounts',
-        paragraphs: [
-          'Questions about dates produce concrete answers. Ask when the current pricing ends, when the contract term ends, and what the standard rate will be on the next cycle.'
-        ],
-        bullets: [
-          'What is the exact end date of my current promotional pricing?',
-          'What will my monthly total be after that date if no changes are made?',
-          'Which charges on my statement are optional vs required for service?',
-          'What plans and promotions are currently published for existing customers in my area?'
-        ]
-      },
-      {
-        heading: 'Ask what is optional',
-        paragraphs: [
-          'Equipment rentals, protection plans and add-on packages are usually optional. Asking which line items are optional gives you a clear list to decide on rather than a stressful yes-or-no negotiation.'
-        ]
-      },
-      {
-        heading: 'Record what you are told',
-        paragraphs: [
-          'Note the date, the representative’s name or badge ID, and any interaction ticket reference number. If an adjustment is agreed, ask which statement it will appear on and confirm on that statement.'
-        ]
-      }
-    ]
+    date: 'Updated Jan 2026',
+    summary: 'Learn how to remove the $7/month standalone WiFi fee, return outdated $11/mo cable boxes, and use the Spectrum TV App to keep your favorite channels for less.',
+    content: `
+### Spectrum’s Sneakiest Line-Item Charges
+
+Spectrum statements have three major areas where customers overpay without realizing:
+
+1. **The $7.00/month WiFi fee**: Spectrum provides modems for free, but charges $7.00 per month just to activate WiFi on their combo unit. Supplying your own router saves $84 per year.
+2. **Cable box rental charges ($10.99/ea)**: A household with 3 TVs pays over $395 annually just to rent plastic set-top boxes.
+3. **The Broadcast TV Surcharge ($25.75/mo)**: This fee has risen by over 300% in recent years.
+
+### How to Fix It Today
+
+- Return your physical cable boxes to a local Spectrum Store or UPS Drop-off (save your receipt!).
+- Download the free **Spectrum TV App** on Apple TV, Samsung Smart TVs, Roku, or Xbox. You get identical live channels, on-demand, and DVR access with zero box rentals.
+- Call retention and request the **Spectrum Choice** package if you only watch local and select cable channels.
+    `
   },
   {
-    slug: 'understanding-common-fees',
-    title: 'Understanding common fees on U.S. service bills',
-    description: 'What equipment rentals, regional surcharges, protection plans and administrative fees generally are, and which ones tend to be optional.',
-    readTime: '7 min read',
-    category: 'Bill basics',
-    body: [
-      {
-        heading: 'Equipment rental',
-        paragraphs: [
-          'Modems, gateways, routers and set-top boxes are often rented monthly ($10–$25/mo). Some providers allow customer-owned equipment on approved model lists; others require their hardware for certain services.'
-        ]
-      },
-      {
-        heading: 'Regional and broadcast surcharges',
-        paragraphs: [
-          'These are provider-set line items tied to content or regional costs. They are typically part of the service rather than a government tax, even though they appear near the tax section.'
-        ]
-      },
-      {
-        heading: 'Protection and insurance add-ons',
-        paragraphs: [
-          'Device protection is generally optional and continues to bill after a device is paid off unless it is removed. Reviewing which lines carry protection is a common first step.'
-        ]
-      },
-      {
-        heading: 'Taxes and government fees',
-        paragraphs: [
-          'Taxes, 911 fees and universal-service charges are set by federal, state or local rules. They are not negotiable, though they can change if your plan or service address changes.'
-        ]
-      }
-    ]
-  },
-  {
-    slug: 'what-we-cannot-promise',
-    title: 'What a bill review can and cannot do',
-    description: 'An honest description of the limits of third-party bill review, including outcomes that depend entirely on the provider.',
+    slug: 'att-autopay-credit-card-changes-guide',
+    title: 'AT&T AutoPay Discount Rules: How to Reclaim $10/Line Every Month',
+    category: 'Billing Policy',
     readTime: '4 min read',
-    category: 'Transparency',
-    body: [
-      {
-        heading: 'No outcome is guaranteed',
-        paragraphs: [
-          'Every pricing decision belongs to your provider. A review can identify charges worth questioning and prepare a clear request, but no third party can require a provider to change your rate.',
-          'Any service that promises a specific dollar amount or a guaranteed reduction before reviewing your account is describing something it cannot control.'
-        ]
-      },
-      {
-        heading: 'What is within our control',
-        paragraphs: [
-          'We control the quality of the review: reading the statement carefully, identifying which items are recurring, flagging expired promotional pricing and preparing a specific, documented request.'
-        ],
-        bullets: [
-          'A line-by-line summary of your statement in plain language',
-          'A written list of items worth questioning with supporting context',
-          'A prepared request you can send or read aloud to customer retention',
-          'A permanent written record of what was requested and when'
-        ]
-      },
-      {
-        heading: 'You stay in control of your account',
-        paragraphs: [
-          'Bill Less America is independent. We are not affiliated with any provider, and we do not change your service without your explicit written approval of the specific request.'
-        ]
-      }
-    ]
+    date: 'Updated Feb 2026',
+    summary: 'AT&T cut AutoPay discounts in half for credit card users. Here is how to safely set up debit or bank payments to restore the maximum $10/line monthly savings.',
+    content: `
+### The New AutoPay Discount Policy
+
+Major carriers including AT&T, Verizon, and T-Mobile have tightened their paperless and AutoPay billing policies:
+
+- **Paid with Credit Card**: AutoPay discount reduced to $5/line (or $0/line on certain older tiers).
+- **Paid with Debit Card or ACH Checking**: Full $10/line discount maintained.
+
+For a family with 4 lines on Unlimited Premium or Extra, paying with a credit card costs an extra **$20 to $40 every month ($240 to $480 per year)**.
+
+### How to Protect Yourself with Bank Payments
+
+1. Use a dedicated sub-checking account with a low balance or debit card from an online bank (like Ally or Capital One) to isolate telecom billing.
+2. Ensure paperless billing remains toggled **ON** in your online portal.
+3. Check your billing cycle date: the full discount applies on the next statement cycle after updating.
+    `
   }
 ];
 
 export const faqList: FAQItem[] = [
   {
-    q: 'Can you guarantee my bill will go down?',
-    a: 'No. Every pricing decision belongs to your provider. We guarantee the work — a careful review, a written explanation, and a documented request — not how your provider responds.',
-    category: 'Guarantees & Scope'
+    q: 'How does Bill Less America work?',
+    a: 'Bill Less America helps consumers lower eligible recurring household bills by negotiating with service providers on their behalf. You submit your recent bill statement and sign a digital Letter of Authorization (LOA). Our experienced negotiation team communicates directly with your provider to seek lower rates, promotional renewals, loyalty discounts, and fee removals. We do the negotiating so you don’t have to.'
   },
   {
-    q: 'How are you paid?',
-    a: 'Households pay us a flat, published fee up front. We accept no commissions, referral payments, kickbacks, or revenue share from any service provider.',
-    category: 'Independence & Fees'
+    q: 'How does your 25% success-based pricing work?',
+    a: 'Our pricing is simple and success-based: our one-time service fee is 25% of the verified savings we successfully obtain for you. If we do not obtain qualifying savings, your fee is $0. There are no upfront fees, no subscription charges, and no hidden costs.'
   },
   {
-    q: 'Why do you charge a flat fee instead of a percentage of savings?',
-    a: 'Percentage-of-savings models create incentives to claim "theoretical" savings over long timelines or push service changes that might not fit your household. A flat fee means our only job is an honest review.',
-    category: 'Independence & Fees'
+    q: 'How are "Verified Savings" calculated?',
+    a: 'Verified savings is the difference between your previous recurring monthly cost and your new negotiated recurring monthly cost, multiplied by the confirmed savings period (up to 12 months). For example, if we lower your bill by $40/month for 12 months, your total verified savings is $480. Our 25% fee is $120, and you keep the remaining $360 in your pocket.'
   },
   {
-    q: 'Will you call my provider without me knowing?',
-    a: 'Never. You receive the exact draft request first. Nothing is submitted, sent, or communicated to any provider without your explicit written authorization and approval.',
-    category: 'Process & Security'
+    q: 'What if you cannot save me money?',
+    a: 'No qualifying savings = No success fee. If your provider refuses to apply discounts or if you are already on the absolute lowest available rate, you owe nothing. The review is 100% free.'
   },
   {
-    q: 'What types of statements do you review?',
-    a: 'We review residential internet, cable TV, wireless cell phone, and satellite statements from all major U.S. carriers (Xfinity, Spectrum, AT&T, Verizon, T-Mobile, Cox, Optimum, DIRECTV, Frontier, DISH, and others).',
-    category: 'Guarantees & Scope'
+    q: 'Do you need my online account login password?',
+    a: 'NO. We NEVER ask for, store, or accept your online portal login passwords. To communicate with your provider on your behalf, we use your account number, customer name, and the standard telephone verification PIN/passcode required by carrier phone representatives, backed by your signed digital Letter of Authorization.'
   },
   {
-    q: 'What information do I need to share?',
-    a: 'Just a recent statement (PDF or clear photo). We redact or do not require sensitive payment methods, and we only need to understand what services your household actively uses.',
-    category: 'Process & Security'
+    q: 'Will my service speed, channels, or features be downgraded?',
+    a: 'Never without your explicit approval. Our primary focus is securing discounts, promotional loyalty rates, and fee waivers on your current service tier or upgrading your speed for less. If a plan change is available that saves money with different features, we will contact you for authorization before making any alterations.'
   },
   {
-    q: 'How long does a review take?',
-    a: 'Standard reviews are completed within 1 to 2 business days. You receive an alert as soon as your written summary and provider request document are ready.',
-    category: 'Process & Security'
+    q: 'What if my service provider removes or fails to honor the discount?',
+    a: 'We back our service with a 60-Day Savings Guarantee. If your provider fails to apply the confirmed discount or rescinds it on your next statement, submit your statement to us and we will re-contact the provider to fix it, or issue an immediate 100% refund of your success fee.'
   },
   {
-    q: 'What if my bill is already as low as possible?',
-    a: 'If our reviewer inspects every line item and finds that your pricing is already optimized and no items are worth questioning, we tell you that plainly in writing so you have complete peace of mind.',
-    category: 'Guarantees & Scope'
+    q: 'What providers and bills do you negotiate?',
+    a: 'We negotiate eligible recurring bills across major US providers, including Internet & Fiber, Mobile / Wireless, Cable & Satellite TV, Home Phone, and Bundled services from Xfinity/Comcast, AT&T/DirecTV, Spectrum/Charter, Verizon, Cox, Frontier, CenturyLink/Brightspeed, and more.'
+  },
+  {
+    q: 'Can I speak with a specialist right now?',
+    a: 'Yes! You can call our direct customer hotline at (832) 554-6367 Monday through Friday, 8:00 AM – 7:00 PM CST, and Saturday 9:00 AM – 3:00 PM CST.'
   }
 ];
-
-export const pricingTiers: PricingTier[] = [
-  {
-    name: 'Single bill review',
-    price: '$29',
-    unit: 'per statement',
-    for: 'One internet, TV, or wireless statement.',
-    features: [
-      'Line-by-line plain-language summary',
-      'Flagged item list with reasons & evidence',
-      'One prepared request draft for your approval',
-      'Written record of what was requested',
-      'Delivered in 1–2 business days'
-    ]
-  },
-  {
-    name: 'Household review',
-    price: '$79',
-    unit: 'one time',
-    for: 'Up to four statements across the household.',
-    highlight: true,
-    features: [
-      'Everything in Single bill review, for up to 4 statements',
-      'Cross-bill duplicate-service & bundle check',
-      'Consolidated household expense overview',
-      'Renewal & promotional end-date calendar tracker',
-      'Priority turnaround & dedicated review specialist'
-    ]
-  },
-  {
-    name: 'Annual watch',
-    price: '$149',
-    unit: 'per year',
-    for: 'Households that want a scheduled check each cycle.',
-    features: [
-      'Two full household reviews per year (up to 8 statements total)',
-      'Scheduled proactive reminders before promotional end dates',
-      'Re-review after any unannounced provider price increases',
-      'Direct phone access to senior bill analyst for questions'
-    ]
-  }
-];
-
-export const demoBillReviewData = {
-  accountName: 'Household Statement #9842',
-  provider: 'Xfinity (Comcast)',
-  statementDate: 'February 12, 2026',
-  totalBilled: '$184.50',
-  summaryText: 'We completed a line-by-line review of your residential statement. 3 charges appear to warrant questioning: an expired 24-month promotional credit, an unreturned legacy streaming box rental, and an optional tech support add-on.',
-  lineItems: [
-    { name: 'Gigabit Extra Internet Tier (Up to 1200 Mbps)', amount: '$110.00', category: 'Recurring base', status: 'standard', note: 'Standard rate card tier' },
-    { name: 'Expired 24-Mo Promo Credit ($30.00 discount)', amount: '-$0.00', category: 'Expired credit', status: 'flag', note: 'Expired on Jan 15, 2026. Caused +$30/mo jump.' },
-    { name: 'xFi Complete Gateway & Unlimited Data', amount: '$25.00', category: 'Hardware & Data', status: 'review', note: 'Hardware lease. Retail modem purchase could save $25/mo.' },
-    { name: 'Flex 4K Streaming Box Rental (2nd Unit)', amount: '$5.00', category: 'Hardware', status: 'flag', note: 'Unused secondary device reported by household.' },
-    { name: 'Regional Sports Network Fee', amount: '$14.25', category: 'Surcharge', status: 'standard', note: 'Mandatory provider surcharge on video tiers.' },
-    { name: 'Broadcast TV Surcharge', amount: '$21.00', category: 'Surcharge', status: 'standard', note: 'Carrier programming transmission fee.' },
-    { name: 'State & Local Regulatory Fees / 911', amount: '$9.25', category: 'Taxes & Gov Fees', status: 'neutral', note: 'Government fee; non-negotiable.' }
-  ],
-  flaggedItems: [
-    {
-      title: 'Promotional discount expired (+ $30.00/mo)',
-      description: 'Your 24-month $30/mo contract incentive ended last billing cycle. Xfinity currently publishes new 12-month tier promotions for existing accounts in your area.',
-      recommendation: 'Request customer loyalty to match current published 1-year contract extension rates.'
-    },
-    {
-      title: 'Secondary Flex Streaming Device ($5.00/mo)',
-      description: 'The account reflects a second streaming receiver active on the billing ledger.',
-      recommendation: 'Return the second box to a local store or drop-off location to remove this recurring line item permanently.'
-    },
-    {
-      title: 'xFi Gateway Lease ($25.00/mo vs owned hardware)',
-      description: 'You are currently paying $300/year to lease the xFi Gateway with Unlimited data bundle.',
-      recommendation: 'Evaluate if a standalone DOCSIS 3.1 modem ($130 one-time) fits your household usage patterns.'
-    }
-  ],
-  preparedDraftRequest: `Dear Xfinity Billing & Loyalty Team,
-
-Account Number: XXXXXX-XXXX-01
-Service Address: 742 Evergreen Terrace
-
-I am contacting you regarding a billing review of my recent statement dated Feb 12, 2026.
-
-1. Promotional Pricing Expiration: My 24-month promotional credit of $30.00 expired as of January. I value my service and would like to review available 12-to-24-month loyalty promotions or renewal agreements for Gigabit internet in my area.
-2. Equipment Return: I have unhooked the secondary Flex streaming device and wish to remove the $5.00/mo rental fee from my active statement.
-3. Plan Alignment: Please provide a list of existing-customer rate card options currently available for my household.
-
-Please confirm the adjusted monthly rate and the effective date of any applied credits.
-
-Thank you,
-Household Account Holder`,
-  timeline: [
-    { date: 'Feb 14, 2026 - 10:15 AM', event: 'Statement uploaded by customer' },
-    { date: 'Feb 14, 2026 - 02:40 PM', event: 'Line-by-line audit completed by senior analyst' },
-    { date: 'Feb 15, 2026 - 09:30 AM', event: '3 flagged items identified and draft request prepared' },
-    { date: 'Feb 15, 2026 - 11:00 AM', event: 'Review package delivered to client for approval' }
-  ]
-};

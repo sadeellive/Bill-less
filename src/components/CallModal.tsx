@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, X, Clock, CheckCircle2, Shield, ArrowRight, Copy, Check } from 'lucide-react';
+import { Phone, PhoneCall, X, ShieldCheck, Clock, CheckCircle2, User, FileText } from 'lucide-react';
 
 interface CallModalProps {
   isOpen: boolean;
@@ -7,199 +7,222 @@ interface CallModalProps {
 }
 
 export const CallModal: React.FC<CallModalProps> = ({ isOpen, onClose }) => {
-  const [copied, setCopied] = useState(false);
   const [callbackRequested, setCallbackRequested] = useState(false);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [provider, setProvider] = useState('');
-  const [timePreference, setTimePreference] = useState('asap');
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    provider: 'xfinity',
+    preferredTime: 'morning',
+    notes: ''
+  });
 
   if (!isOpen) return null;
 
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText('(832) 554-6367');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleCallbackSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phone) return;
     setCallbackRequested(true);
   };
 
+  const handleReset = () => {
+    setCallbackRequested(false);
+    setFormData({
+      name: '',
+      phone: '',
+      provider: 'xfinity',
+      preferredTime: 'morning',
+      notes: ''
+    });
+    onClose();
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D1B2A]/70 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
       <div 
-        className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[#d0d5dd] bg-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200"
+        role="dialog"
+        aria-modal="true"
       >
-        {/* Modal Header */}
+        {/* Header */}
         <div className="bg-[#0D1B2A] relative px-6 py-6 border-b border-slate-800 text-white">
-          <div aria-hidden="true" className="grid-atlas pointer-events-none absolute inset-0 opacity-30"></div>
-          <button 
-            type="button" 
+          <button
+            type="button"
             onClick={onClose}
             className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
-            aria-label="Close dialog"
+            aria-label="Close modal"
           >
             <X className="size-5" />
           </button>
-          
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex size-2 rounded-full bg-[#D71920] animate-pulse"></span>
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#D71920]">Direct Savings Consultation</span>
+
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-red-500/20 px-3 py-1 text-xs font-bold text-red-300 mb-2 border border-red-500/30">
+            <PhoneCall className="size-3.5" />
+            <span>Direct Consumer Hotline</span>
           </div>
-          <h2 className="text-2xl font-extrabold text-white">Speak with a Savings Specialist</h2>
-          <p className="mt-1 text-sm text-slate-300">
-            Find out how much you can save on your bills every month. Plain answers, zero pressure.
+
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
+            Speak with an Audit Specialist
+          </h2>
+          <p className="text-xs text-slate-300 mt-1">
+            Fast, confidential assistance for your household bills
           </p>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto bg-white">
-          {/* Direct Call Box */}
-          <div className="p-5 rounded-2xl border border-red-100 bg-[#F2F4F7] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#D71920]">Direct Phone Line</p>
-              <a 
-                href="tel:+18325546367" 
-                className="text-2xl font-black text-[#0D1B2A] hover:text-[#D71920] transition-colors flex items-center gap-2 mt-0.5"
-              >
-                (832) 554-6367
-              </a>
-              <p className="text-xs text-[#64707A] mt-1 flex items-center gap-1.5">
-                <Clock className="size-3.5 text-[#D71920]" /> Mon–Fri 8:00 AM – 8:00 PM ET
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleCopyPhone}
-                className="px-3.5 py-2 text-xs font-bold rounded-xl border border-[#d0d5dd] bg-white hover:bg-slate-50 text-[#0D1B2A] transition-colors flex items-center gap-1.5 shadow-sm"
-                title="Copy phone number"
-              >
-                {copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
-                <span>{copied ? 'Copied' : 'Copy'}</span>
-              </button>
-
-              <a
-                href="tel:+18325546367"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D71920] text-white font-bold text-sm shadow-md shadow-red-200 hover:bg-[#b5141a] transition-transform active:scale-95"
-              >
-                <Phone className="size-4" />
-                <span>Call Now</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Request Callback Section */}
+        <div className="p-6">
           {!callbackRequested ? (
-            <div className="space-y-3">
-              <div className="border-t border-slate-100 pt-4">
-                <h3 className="font-display text-base font-bold text-[#0D1B2A]">Or Request an Instant Callback</h3>
-                <p className="text-xs text-[#64707A] mt-0.5">
-                  Leave your number and a Bill Less America specialist will call you back shortly.
+            <div className="space-y-6">
+              {/* Direct Instant Call Box */}
+              <div className="rounded-2xl bg-[#FAFBFD] p-5 border border-slate-200 text-center space-y-3">
+                <p className="text-xs font-bold uppercase tracking-wider text-[#64707A]">
+                  Option 1: Call Directly Now
                 </p>
+                <div className="flex items-center justify-center gap-3">
+                  <a
+                    href="tel:+18325546367"
+                    className="focus-ring inline-flex items-center justify-center gap-2.5 rounded-full bg-[#D71920] px-6 py-3.5 text-base font-black text-white shadow-lg shadow-red-200 hover:bg-[#b5141a] transition-all hover:scale-105 active:scale-95"
+                  >
+                    <Phone className="size-5" />
+                    <span>Call (832) 554-6367</span>
+                  </a>
+                </div>
+                <div className="flex items-center justify-center gap-4 text-xs text-[#64707A] pt-1">
+                  <span className="flex items-center gap-1">
+                    <Clock className="size-3.5 text-emerald-600" />
+                    <span>Mon–Sat 8am–7pm CST</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="size-3.5 text-emerald-600" />
+                    <span>No wait times</span>
+                  </span>
+                </div>
               </div>
 
-              <form onSubmit={handleCallbackSubmit} className="space-y-3">
+              {/* Divider */}
+              <div className="relative flex items-center justify-center">
+                <div className="border-t border-slate-200 w-full"></div>
+                <span className="bg-white px-3 text-xs font-bold text-[#64707A] uppercase tracking-wider">
+                  Or Request a Callback
+                </span>
+              </div>
+
+              {/* Callback Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">Your Name</label>
-                    <input
-                      type="text"
-                      placeholder="Jane Doe"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-[#d0d5dd] bg-white px-3.5 py-2.5 text-sm focus-ring text-[#0D1B2A]"
-                    />
+                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">
+                      Your Name
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-2.5 size-4 text-[#64707A]" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. John Smith"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full rounded-xl border border-[#d0d5dd] bg-white py-2 pl-9 pr-3 text-sm focus:border-[#D71920] focus:ring-1 focus:ring-[#D71920] outline-none"
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">Phone Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="(555) 000-0000"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full rounded-xl border border-[#d0d5dd] bg-white px-3.5 py-2.5 text-sm focus-ring text-[#0D1B2A]"
-                    />
+                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">
+                      Phone Number
+                    </label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-2.5 size-4 text-[#64707A]" />
+                      <input
+                        type="tel"
+                        required
+                        placeholder="(555) 000-0000"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full rounded-xl border border-[#d0d5dd] bg-white py-2 pl-9 pr-3 text-sm focus:border-[#D71920] focus:ring-1 focus:ring-[#D71920] outline-none"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">Service Provider (Optional)</label>
+                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">
+                      Primary Provider
+                    </label>
                     <select
-                      value={provider}
-                      onChange={(e) => setProvider(e.target.value)}
-                      className="w-full rounded-xl border border-[#d0d5dd] bg-white px-3.5 py-2.5 text-sm focus-ring text-[#0D1B2A]"
+                      value={formData.provider}
+                      onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
+                      className="w-full rounded-xl border border-[#d0d5dd] bg-white py-2 px-3 text-sm focus:border-[#D71920] focus:ring-1 focus:ring-[#D71920] outline-none"
                     >
-                      <option value="">Select a provider...</option>
-                      <option value="Xfinity">Xfinity (Comcast)</option>
-                      <option value="Spectrum">Spectrum</option>
-                      <option value="AT&T">AT&T</option>
-                      <option value="Verizon">Verizon</option>
-                      <option value="T-Mobile">T-Mobile</option>
-                      <option value="Cox">Cox</option>
-                      <option value="Optimum">Optimum</option>
-                      <option value="DIRECTV">DIRECTV</option>
-                      <option value="Frontier">Frontier</option>
-                      <option value="Other">Other Provider</option>
+                      <option value="xfinity">Xfinity / Comcast</option>
+                      <option value="att">AT&T / DirecTV</option>
+                      <option value="spectrum">Spectrum / Charter</option>
+                      <option value="verizon">Verizon Wireless / Fios</option>
+                      <option value="cox">Cox Communications</option>
+                      <option value="tmobile">T-Mobile</option>
+                      <option value="other">Other Provider</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">When to Call</label>
+                    <label className="block text-xs font-bold text-[#0D1B2A] mb-1">
+                      Best Time to Call
+                    </label>
                     <select
-                      value={timePreference}
-                      onChange={(e) => setTimePreference(e.target.value)}
-                      className="w-full rounded-xl border border-[#d0d5dd] bg-white px-3.5 py-2.5 text-sm focus-ring text-[#0D1B2A]"
+                      value={formData.preferredTime}
+                      onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
+                      className="w-full rounded-xl border border-[#d0d5dd] bg-white py-2 px-3 text-sm focus:border-[#D71920] focus:ring-1 focus:ring-[#D71920] outline-none"
                     >
-                      <option value="asap">Right now (Next 5–10 mins)</option>
-                      <option value="morning">Morning (9 AM – 12 PM)</option>
-                      <option value="afternoon">Afternoon (12 PM – 5 PM)</option>
-                      <option value="evening">Evening (5 PM – 8 PM)</option>
+                      <option value="morning">Morning (9am – 12pm CST)</option>
+                      <option value="afternoon">Afternoon (12pm – 4pm CST)</option>
+                      <option value="evening">Evening (4pm – 7pm CST)</option>
+                      <option value="asap">As Soon As Possible</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#0D1B2A] mb-1">
+                    Optional Notes or Questions
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="e.g. My monthly bill went up by $50 last week..."
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full rounded-xl border border-[#d0d5dd] bg-white py-2 px-3 text-sm focus:border-[#D71920] focus:ring-1 focus:ring-[#D71920] outline-none"
+                  ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-[#0D1B2A] py-3 px-4 text-sm font-bold text-white hover:bg-[#1a2f47] transition-colors shadow-md"
+                  className="w-full rounded-xl bg-[#0D1B2A] py-3 text-sm font-bold text-white shadow hover:bg-[#1B314B] transition-colors cursor-pointer"
                 >
-                  <span>Request Callback</span>
-                  <ArrowRight className="size-4" />
+                  Schedule Specialist Callback
                 </button>
               </form>
             </div>
           ) : (
-            <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-950 space-y-2 text-center animate-in fade-in">
-              <CheckCircle2 className="size-8 text-emerald-600 mx-auto" />
-              <p className="font-bold text-base">Callback Request Received!</p>
-              <p className="text-xs text-emerald-800 max-w-sm mx-auto">
-                A Bill Less America specialist will call <strong>{phone}</strong> shortly. We do not store or sell your contact information.
+            <div className="py-8 text-center space-y-4">
+              <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <CheckCircle2 className="size-10" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-[#0D1B2A]">
+                Callback Scheduled!
+              </h3>
+              <p className="text-sm text-[#64707A] max-w-sm mx-auto">
+                Thank you, <strong className="text-[#0D1B2A]">{formData.name || 'there'}</strong>. An audit specialist will call you at <strong className="text-[#0D1B2A]">{formData.phone}</strong> during your preferred window.
               </p>
-              <button
-                type="button"
-                onClick={() => setCallbackRequested(false)}
-                className="text-xs font-bold text-[#D71920] underline mt-2"
-              >
-                Submit another request
-              </button>
+              <div className="pt-4">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="rounded-xl bg-[#0D1B2A] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#1B314B]"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           )}
-
-          {/* Independence disclosure */}
-          <div className="flex items-start gap-2.5 pt-3 border-t border-slate-100 text-xs text-[#64707A]">
-            <Shield className="size-4 text-[#D71920] shrink-0 mt-0.5" />
-            <p>
-              Bill Less America is fully dedicated to household advocacy. We negotiate so you can save on internet, cable, phone, and more.
-            </p>
-          </div>
         </div>
       </div>
     </div>

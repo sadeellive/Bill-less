@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Clock, PhoneCall } from 'lucide-react';
+import { BookOpen, ChevronRight, ArrowRight, ShieldCheck } from 'lucide-react';
 import { resourcesList } from '../data/siteContent';
 
 interface ResourcesPageProps {
@@ -7,97 +7,48 @@ interface ResourcesPageProps {
   onOpenCallModal: () => void;
 }
 
-export const ResourcesPage: React.FC<ResourcesPageProps> = ({ navigate, onOpenCallModal }) => {
-  const handleNav = (path: string, e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export const ResourcesPage: React.FC<ResourcesPageProps> = ({ navigate }) => {
   return (
-    <div className="space-y-16 py-12">
-      {/* Header Banner */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.18em] text-primary">
-          Free Knowledge Base
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 space-y-12">
+      <div className="text-center max-w-3xl mx-auto space-y-3">
+        <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-[#D71920]">
+          Consumer Knowledge Base
         </p>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-          Guides, fee glossaries & checklists
+        <h1 className="text-3xl sm:text-5xl font-black text-[#0D1B2A] tracking-tight">
+          Telecom Billing Guides & Scripts
         </h1>
-        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-          Free educational articles to help you understand your monthly statements, know which questions to ask, and manage service renewals independently.
+        <p className="text-base text-[#64707A]">
+          Step-by-step guides, phone scripts, and legal consumer rights to help you lower internet and pay-TV bills.
         </p>
-      </section>
+      </div>
 
-      {/* Resource Cards Grid */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-8 md:grid-cols-2">
-          {resourcesList.map((r) => (
-            <article
-              key={r.slug}
-              className="rounded-3xl border border-border bg-card p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary mb-3">
-                  <span>{r.category}</span>
-                  <span>·</span>
-                  <span className="flex items-center gap-1 text-muted-foreground">
-                    <Clock className="size-3.5" /> {r.readTime}
-                  </span>
-                </div>
-
-                <h2 className="font-display text-2xl font-bold text-foreground">
-                  <a
-                    href={`/resources/${r.slug}`}
-                    onClick={(e) => handleNav(`/resources/${r.slug}`, e)}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {r.title}
-                  </a>
-                </h2>
-
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {r.description}
-                </p>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-                <a
-                  href={`/resources/${r.slug}`}
-                  onClick={(e) => handleNav(`/resources/${r.slug}`, e)}
-                  className="text-sm font-bold text-primary hover:underline flex items-center gap-1.5"
-                >
-                  <span>Read full guide</span>
-                  <ArrowRight className="size-4" />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Call Banner */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-12">
-        <div className="surface-navy rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-navy-foreground">
-              Have specific questions not covered here?
-            </h2>
-            <p className="text-sm text-navy-foreground/80">
-              Speak directly with an independent bill review specialist at (832) 554-6367.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onOpenCallModal}
-            className="px-6 py-3.5 rounded-xl bg-teal text-teal-foreground font-bold text-sm shadow hover:bg-teal/90 flex items-center gap-2"
+      <div className="grid gap-6 md:grid-cols-3">
+        {resourcesList.map((r) => (
+          <div
+            key={r.slug}
+            onClick={() => navigate(`/resources/${r.slug}`)}
+            className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-xs hover:border-[#D71920] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
           >
-            <PhoneCall className="size-4" />
-            <span>Call Toll-Free</span>
-          </button>
-        </div>
-      </section>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-[11px] font-bold">
+                <span className="text-[#D71920] uppercase tracking-wider">{r.category}</span>
+                <span className="text-[#64707A]">{r.readTime}</span>
+              </div>
+              <h2 className="font-display text-base font-bold text-[#0D1B2A] group-hover:text-[#D71920] transition-colors leading-snug">
+                {r.title}
+              </h2>
+              <p className="text-xs text-[#64707A] leading-relaxed line-clamp-3">
+                {r.summary}
+              </p>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#0D1B2A]">
+              <span>Read Full Guide</span>
+              <ChevronRight className="size-4 text-[#D71920] group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

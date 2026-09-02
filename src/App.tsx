@@ -8,97 +8,105 @@ import { CallModal } from './components/CallModal';
 import { HomePage } from './pages/HomePage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { PricingPage } from './pages/PricingPage';
-import { ProvidersPage } from './pages/ProvidersPage';
+import { UploadPage } from './pages/UploadPage';
 import { ProviderDetailPage } from './pages/ProviderDetailPage';
 import { EstimatorPage } from './pages/EstimatorPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { ResourceDetailPage } from './pages/ResourceDetailPage';
-import { UploadPage } from './pages/UploadPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
-import { FAQPage } from './pages/FAQPage';
-import { LegalPages } from './pages/LegalPages';
+import { NegotiationResultPage } from './pages/NegotiationResultPage';
+import { RefundPolicyPage } from './pages/RefundPolicyPage';
+import { PrivacyPage, TermsPage, DisclaimerPage, AccessibilityPage } from './pages/LegalPages';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
     return window.location.pathname || '/';
   });
-  const [isCallModalOpen, setIsCallModalOpen] = useState<boolean>(false);
 
-  // Sync with browser history popstate
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+
   useEffect(() => {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname || '/');
+      window.scrollTo(0, 0);
     };
+
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const navigate = (path: string) => {
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, '', path);
+    if (path.startsWith('/#')) {
+      const elementId = path.replace('/#', '');
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
     }
+
+    window.history.pushState({}, '', path);
     setCurrentPath(path);
+    window.scrollTo(0, 0);
   };
 
   const renderCurrentPage = () => {
-    // Route matching
-    if (currentPath === '/' || currentPath === '') {
-      return <HomePage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/how-it-works') {
-      return <HowItWorksPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/pricing') {
-      return <PricingPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/providers') {
-      return <ProvidersPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
+    // Provider Detail Routes
     if (currentPath.startsWith('/providers/')) {
       const slug = currentPath.replace('/providers/', '');
-      return <ProviderDetailPage slug={slug} navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/calculator' || currentPath === '/estimator') {
-      return <EstimatorPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/resources') {
-      return <ResourcesPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath.startsWith('/resources/')) {
-      const slug = currentPath.replace('/resources/', '');
-      return <ResourceDetailPage slug={slug} navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/upload') {
-      return <UploadPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/about') {
-      return <AboutPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/contact') {
-      return <ContactPage onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/faq') {
-      return <FAQPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
-    }
-    if (currentPath === '/terms') {
-      return <LegalPages pageType="terms" navigate={navigate} />;
-    }
-    if (currentPath === '/privacy') {
-      return <LegalPages pageType="privacy" navigate={navigate} />;
-    }
-    if (currentPath === '/disclosures') {
-      return <LegalPages pageType="disclosures" navigate={navigate} />;
-    }
-    if (currentPath === '/accessibility') {
-      return <LegalPages pageType="accessibility" navigate={navigate} />;
-    }
-    if (currentPath === '/do-not-sell') {
-      return <LegalPages pageType="do-not-sell" navigate={navigate} />;
+      return (
+        <ProviderDetailPage 
+          slug={slug} 
+          navigate={navigate} 
+          onOpenCallModal={() => setIsCallModalOpen(true)} 
+        />
+      );
     }
 
-    // Default fallback to HomePage
-    return <HomePage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+    // Resource Guide Detail Routes
+    if (currentPath.startsWith('/resources/')) {
+      const slug = currentPath.replace('/resources/', '');
+      return (
+        <ResourceDetailPage 
+          slug={slug} 
+          navigate={navigate} 
+          onOpenCallModal={() => setIsCallModalOpen(true)} 
+        />
+      );
+    }
+
+    switch (currentPath) {
+      case '/how-it-works':
+        return <HowItWorksPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/pricing':
+        return <PricingPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/upload':
+        return <UploadPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/negotiation-result':
+        return <NegotiationResultPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/refund-policy':
+        return <RefundPolicyPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/estimator':
+        return <EstimatorPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/resources':
+        return <ResourcesPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/about':
+        return <AboutPage navigate={navigate} />;
+      case '/contact':
+        return <ContactPage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+      case '/privacy':
+        return <PrivacyPage />;
+      case '/terms':
+        return <TermsPage />;
+      case '/disclaimer':
+        return <DisclaimerPage />;
+      case '/accessibility':
+        return <AccessibilityPage />;
+      case '/':
+      default:
+        return <HomePage navigate={navigate} onOpenCallModal={() => setIsCallModalOpen(true)} />;
+    }
   };
 
   return (
@@ -110,8 +118,8 @@ export function App() {
         onOpenCallModal={() => setIsCallModalOpen(true)} 
       />
 
-      {/* Main Content Area */}
-      <main id="main" className="flex-1">
+      {/* Main Routed Page Content */}
+      <main className="grow">
         {renderCurrentPage()}
       </main>
 

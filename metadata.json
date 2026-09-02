@@ -1,6 +1,8 @@
 {
-  "name": "Bill Less America - Lower Bills. Better Life.",
-  "description": "Bill Less America reviews and negotiates your internet, TV, cable, and phone bills. Lower monthly bills on services you already use.",
+  "name": "Bill Less America",
+  "description": "Bill Less America provides independent telecom bill auditing, rate negotiation, and fee reduction for Xfinity, AT&T, Spectrum, and more.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

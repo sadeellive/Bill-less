@@ -9,7 +9,7 @@ import {
   Sparkles,
   Quote
 } from 'lucide-react';
-import { testimonialsList, Testimonial } from '../data/testimonialsData';
+import { testimonialsList } from '../data/testimonialsData';
 
 interface TestimonialsSectionProps {
   onNavigate: (path: string) => void;

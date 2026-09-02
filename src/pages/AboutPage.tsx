@@ -1,101 +1,70 @@
 import React from 'react';
-import { Compass, ShieldCheck, Scale, Lock, PhoneCall, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Users, Target, HeartHandshake, Phone } from 'lucide-react';
 
 interface AboutPageProps {
   navigate: (path: string) => void;
-  onOpenCallModal: () => void;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ navigate, onOpenCallModal }) => {
-  const handleNav = (path: string, e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export const AboutPage: React.FC<AboutPageProps> = ({ navigate }) => {
   return (
-    <div className="space-y-16 py-12">
-      {/* Header */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.18em] text-primary">
-          About Bill Less America
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 space-y-16">
+      <div className="text-center max-w-3xl mx-auto space-y-3">
+        <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-[#D71920]">
+          Our Mission
         </p>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-          Independent U.S. Bill Review & Advocacy
+        <h1 className="text-3xl sm:text-5xl font-black text-[#0D1B2A] tracking-tight">
+          Standing Up for American Consumers
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground leading-relaxed max-w-3xl">
-          Bill Less America was founded on a simple principle: when households pay for a service review, they deserve an honest technical audit without hidden commissions, advertising partnerships, or percentage-of-savings schemes.
+        <p className="text-base text-[#64707A] leading-relaxed">
+          Bill Less America was founded on a simple principle: telecom companies shouldn't profit by confusing their customers with stealth price hikes and junk equipment fees.
         </p>
-      </section>
+      </div>
 
-      {/* Philosophy */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="rounded-3xl border border-border bg-card p-8 sm:p-12 shadow-sm space-y-6">
-          <h2 className="font-display text-2xl font-bold text-foreground">
-            Our Independent Operating Principles
-          </h2>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="space-y-2">
-              <h3 className="font-display text-base font-bold text-foreground flex items-center gap-2">
-                <Scale className="size-4 text-teal" />
-                <span>100% Flat-Fee Model</span>
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                We charge an upfront, published flat fee. We do not take 40% of claimed "estimated savings" or trap households in recurring billing agreements.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-display text-base font-bold text-foreground flex items-center gap-2">
-                <Compass className="size-4 text-teal" />
-                <span>Zero Carrier Kickbacks</span>
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                We do not receive referral fees or affiliate kickbacks from any telecom carrier, satellite provider, or ISP. Our loyalty is solely to the household.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-display text-base font-bold text-foreground flex items-center gap-2">
-                <ShieldCheck className="size-4 text-teal" />
-                <span>No False Guarantees</span>
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                We refuse to invent fake statistics or promise savings that depend entirely on your provider's discretionary rate cards. We guarantee the quality of our audit work.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-display text-base font-bold text-foreground flex items-center gap-2">
-                <Lock className="size-4 text-teal" />
-                <span>Explicit Client Control</span>
-              </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                We never contact a carrier, cancel plans, or downgrade services without your explicit, written authorization of the exact document draft.
-              </p>
-            </div>
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-xs space-y-3">
+          <div className="size-12 rounded-2xl bg-red-50 text-[#D71920] flex items-center justify-center">
+            <ShieldCheck className="size-6" />
           </div>
+          <h2 className="text-lg font-bold text-[#0D1B2A]">100% Independent</h2>
+          <p className="text-xs sm:text-sm text-[#64707A] leading-relaxed">
+            We do not accept commission kickbacks or referral fees from Comcast, AT&T, Spectrum, or any other provider. Our loyalty is 100% with the household.
+          </p>
         </div>
-      </section>
 
-      {/* CTA Box */}
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 pb-12">
-        <div className="surface-navy rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-bold text-navy-foreground">Want to speak with our team?</h3>
-            <p className="text-xs text-navy-foreground/80 mt-1">Our review specialists are available Mon–Fri 8am–7pm ET.</p>
+        <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-xs space-y-3">
+          <div className="size-12 rounded-2xl bg-slate-100 text-[#0D1B2A] flex items-center justify-center">
+            <Target className="size-6" />
           </div>
-          <button
-            type="button"
-            onClick={onOpenCallModal}
-            className="px-6 py-3 rounded-xl bg-teal text-teal-foreground font-bold text-xs hover:bg-teal/90 flex items-center gap-2 shrink-0"
-          >
-            <PhoneCall className="size-3.5" />
-            <span>Call (832) 554-6367</span>
-          </button>
+          <h2 className="text-lg font-bold text-[#0D1B2A]">Forensic Analysis</h2>
+          <p className="text-xs sm:text-sm text-[#64707A] leading-relaxed">
+            We analyze thousands of monthly billing statements, tracking internal carrier retention promotional codes and regional market benchmarks.
+          </p>
         </div>
-      </section>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-xs space-y-3">
+          <div className="size-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <HeartHandshake className="size-6" />
+          </div>
+          <h2 className="text-lg font-bold text-[#0D1B2A]">Fair Flat Fees</h2>
+          <p className="text-xs sm:text-sm text-[#64707A] leading-relaxed">
+            We believe in honest flat pricing. We will never demand 40%–50% of your ongoing monthly savings. You keep every single dollar negotiated.
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-3xl bg-[#0D1B2A] p-8 text-center text-white space-y-4">
+        <h2 className="text-2xl font-bold">Have questions or want to speak with our team?</h2>
+        <p className="text-sm text-slate-300">
+          Our headquarters is in Houston, Texas. Call our consumer desk at (832) 554-6367.
+        </p>
+        <a
+          href="tel:+18325546367"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#D71920] font-bold text-sm text-white hover:bg-[#b5141a]"
+        >
+          <Phone className="size-4" />
+          <span>Call (832) 554-6367</span>
+        </a>
+      </div>
     </div>
   );
 };

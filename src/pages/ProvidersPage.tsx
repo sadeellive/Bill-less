@@ -12,8 +12,8 @@ export const ProvidersPage: React.FC<ProvidersPageProps> = ({ navigate, onOpenCa
   const [search, setSearch] = useState('');
 
   const filteredProviders = providersList.filter((p) => {
-    const matchesFilter = filter === 'all' || p.category === filter;
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.summary.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === 'all' || p.category.toLowerCase().includes(filter);
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -101,7 +101,7 @@ export const ProvidersPage: React.FC<ProvidersPageProps> = ({ navigate, onOpenCa
                 </h2>
 
                 <p className="mt-2.5 text-xs leading-relaxed text-muted-foreground">
-                  {p.summary}
+                  {p.description}
                 </p>
 
                 <div className="mt-4 pt-3 border-t border-border">
@@ -109,10 +109,10 @@ export const ProvidersPage: React.FC<ProvidersPageProps> = ({ navigate, onOpenCa
                     Common items flagged:
                   </p>
                   <ul className="text-xs text-foreground/80 space-y-1">
-                    {p.commonCharges.slice(0, 2).map((c, i) => (
+                    {p.commonFees.slice(0, 2).map((fee, i) => (
                       <li key={i} className="flex items-center gap-1.5">
                         <span className="size-1.5 rounded-full bg-teal shrink-0"></span>
-                        <span className="truncate">{c.name}</span>
+                        <span className="truncate">{fee}</span>
                       </li>
                     ))}
                   </ul>

@@ -1,154 +1,140 @@
 import React from 'react';
-import { ShieldCheck, Lock, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Lock, CheckCircle2 } from 'lucide-react';
 
-interface LegalPageProps {
-  pageType: 'terms' | 'privacy' | 'disclosures' | 'accessibility' | 'do-not-sell';
-  navigate: (path: string) => void;
-}
-
-export const LegalPages: React.FC<LegalPageProps> = ({ pageType, navigate }) => {
-  const handleNav = (path: string, e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const getPageContent = () => {
-    switch (pageType) {
-      case 'terms':
-        return {
-          title: 'Terms of Service',
-          updated: 'Updated February 2026',
-          sections: [
-            {
-              h: '1. Overview of Services',
-              p: 'Bill Less America provides independent, informational bill review and negotiation strategy services for residential telecom, cable, internet, and utility accounts. We analyze customer-provided statements, prepare summary breakdowns, and draft customized request letters for provider customer support representatives.'
-            },
-            {
-              h: '2. Independence and No Guarantee of Outcome',
-              p: 'Bill Less America is an independent analytical consultancy and household advocacy organization. We are not an agent of, affiliate of, or endorsed by any service provider. Service providers make all final pricing, credit, and contract decisions at their sole discretion. Bill Less America does not guarantee rate reductions, refunds, or credits.'
-            },
-            {
-              h: '3. Explicit Customer Authorization',
-              p: 'Bill Less America does not cancel, modify, or contractually alter client accounts without the client’s explicit written approval of the exact request draft.'
-            },
-            {
-              h: '4. Flat Fee Structure',
-              p: 'Services are billed at flat published rates at the time of intake. We do not assess percentage-of-savings charges or recurring subscriptions unless an annual monitoring plan is explicitly selected.'
-            }
-          ]
-        };
-      case 'privacy':
-        return {
-          title: 'Privacy Notice',
-          updated: 'Updated February 2026',
-          sections: [
-            {
-              h: '1. Information We Collect',
-              p: 'We collect statement files uploaded by users, contact email addresses, phone numbers provided for review consultations, and household usage preferences submitted during intake.'
-            },
-            {
-              h: '2. Use of Information',
-              p: 'Data is used exclusively to conduct line-by-line statement analysis, prepare requested deliverables, and communicate status alerts to the customer. We never sell, rent, or trade customer data with advertising brokers or third-party telecom carriers.'
-            },
-            {
-              h: '3. Data Sanitization & Security',
-              p: 'Payment information, credit card numbers, and banking details present on raw statements are redacted or ignored. Files are encrypted in transit (TLS 1.3) and at rest.'
-            }
-          ]
-        };
-      case 'disclosures':
-        return {
-          title: 'Independence, Disclosures & Advertising Notice',
-          updated: 'Updated February 2026',
-          sections: [
-            {
-              h: '1. Nominative Fair Use of Trademarks',
-              p: 'All provider names, brand marks, and logos (such as Xfinity, Comcast, Spectrum, Charter, AT&T, Verizon, Cox, Optimum, DIRECTV, Frontier, and DISH) are trademarks of their respective owners. They are referenced strictly for descriptive and nominative fair-use purposes to identify the service statements we review.'
-            },
-            {
-              h: '2. No Carrier Kickbacks or Affiliate Links',
-              p: 'Bill Less America does not accept affiliate commissions, referral fees, sales bonuses, or marketing subsidies from any telecom provider. Our revenue comes solely from flat client fees.'
-            }
-          ]
-        };
-      case 'accessibility':
-        return {
-          title: 'Accessibility Statement',
-          updated: 'Updated February 2026',
-          sections: [
-            {
-              h: '1. Our Commitment',
-              p: 'Bill Less America is committed to ensuring digital accessibility for all users, including those with visual, auditory, motor, and cognitive disabilities. We adhere to WCAG 2.1 Level AA standards.'
-            },
-            {
-              h: '2. Phone & Assisted Access',
-              p: 'Users who experience difficulty interacting with our web portal can call our direct phone line at (832) 554-6367 for live telephone assistance.'
-            }
-          ]
-        };
-      case 'do-not-sell':
-        return {
-          title: 'Your Privacy Choices / Do Not Sell My Info',
-          updated: 'Updated February 2026',
-          sections: [
-            {
-              h: '1. State Privacy Rights (CPRA, CPA, VCDPA)',
-              p: 'Under California, Colorado, Virginia, and other state laws, consumers have the right to opt out of the sale or sharing of their personal information for cross-context behavioral advertising.'
-            },
-            {
-              h: '2. Our Standard Practice',
-              p: 'Bill Less America does NOT sell personal information or share personal data with third-party data brokers for commercial monetization.'
-            }
-          ]
-        };
-      default:
-        return {
-          title: 'Legal Information',
-          updated: 'Updated February 2026',
-          sections: []
-        };
-    }
-  };
-
-  const content = getPageContent();
-
+export const PrivacyPage: React.FC = () => {
   return (
-    <div className="space-y-12 py-12">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <button
-          type="button"
-          onClick={() => handleNav('/')}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="size-4" />
-          <span>Back to Home</span>
-        </button>
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-6 text-sm text-[#0D1B2A] leading-relaxed">
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="font-display text-3xl font-extrabold text-[#0D1B2A]">Privacy & Data Policy</h1>
+        <p className="text-xs text-[#64707A] mt-1">Last Updated: February 2026 • Headquarters: 2827 Dunvale Rd, Houston, TX 77063</p>
+      </div>
+      
+      <p>
+        Bill Less America ("we," "our," or "us") is dedicated to protecting consumer privacy and safeguarding your sensitive billing records. This policy details how we collect, handle, protect, and dispose of personal and account information submitted during the bill negotiation process.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">1. Information We Collect</h2>
+      <p>
+        To negotiate on your behalf with third-party service providers, we collect:
+      </p>
+      <ul className="list-disc pl-5 space-y-1 text-xs sm:text-sm text-[#4A5568]">
+        <li><strong>Contact Information:</strong> Your full name, email address, phone number, and billing/service street address.</li>
+        <li><strong>Provider Account Data:</strong> Name of your service provider, account number, authorized customer name, telephone verification passcode/PIN, and current monthly statement amount.</li>
+        <li><strong>Uploaded Statement Records:</strong> Copies of your monthly bills, itemized line items, equipment rental rates, and dates.</li>
+      </ul>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">2. Strict Security & Password Prohibition</h2>
+      <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-900 space-y-1">
+        <p className="font-bold">We NEVER ask for, store, or accept your web portal login password.</p>
+        <p>
+          Negotiations with providers are conducted by phone or authorized customer-service channels using your signed Letter of Authorization (LOA) and carrier telephone verification PIN. You should never disclose your online login password to anyone, including our team.
+        </p>
       </div>
 
-      <section className="mx-auto max-w-4xl px-4 sm:px-6">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D71920] mb-2">
-          <ShieldCheck className="size-4" />
-          <span>Bill Less America Transparency</span>
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground">
-          {content.title}
-        </h1>
-        <p className="text-xs text-muted-foreground mt-2">{content.updated}</p>
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">3. Zero Selling or Brokerage of Customer Data</h2>
+      <p>
+        We do not sell, rent, license, or monetize your personal information or bill statements to third-party data brokers, advertising agencies, or marketing companies. Information is utilized solely to analyze, negotiate, and verify rate discounts for your account.
+      </p>
 
-        <div className="mt-10 space-y-8 divide-y divide-border border-y border-border py-8">
-          {content.sections.map((sec, idx) => (
-            <div key={idx} className={idx > 0 ? 'pt-8' : ''}>
-              <h2 className="font-display text-lg font-bold text-foreground mb-3">
-                {sec.h}
-              </h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {sec.p}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">4. Encryption & Document Retention</h2>
+      <p>
+        All bill uploads are transmitted with 256-bit TLS/SSL encryption and stored on secure enterprise infrastructure. Uploaded statements are automatically purged from active operational storage after the negotiation and verified savings settlement is complete.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">5. Separate Marketing Consent (No Bundling)</h2>
+      <p>
+        Consent to receive marketing or promotional text messages and emails is strictly optional, presented as an unchecked checkbox, and never bundled as a prerequisite for using our negotiation service. Consumers can unsubscribe or opt out at any time.
+      </p>
+    </div>
+  );
+};
+
+export const TermsPage: React.FC = () => {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-6 text-sm text-[#0D1B2A] leading-relaxed">
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="font-display text-3xl font-extrabold text-[#0D1B2A]">Terms of Service</h1>
+        <p className="text-xs text-[#64707A] mt-1">Last Updated: February 2026 • Headquarters: 2827 Dunvale Rd, Houston, TX 77063</p>
+      </div>
+
+      <p>
+        By accessing the Bill Less America website or authorizing us to negotiate on your behalf, you agree to these Terms of Service.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">1. Scope of Representation & Letter of Authorization (LOA)</h2>
+      <p>
+        Bill Less America acts as your limited authorized representative to communicate with your eligible telecommunications, internet, cable, and recurring household service providers. By submitting an intake form, you execute a Letter of Authorization authorizing our team to inquire about promotional rates, loyalty discounts, equipment credits, and plan adjustments. We do NOT cancel primary services or initiate credit checks without your express consent.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">2. Simple Success-Based Pricing (25% Model)</h2>
+      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-[#0D1B2A] space-y-2">
+        <p className="font-bold text-[#D71920]">Prominent Pricing Disclosure:</p>
+        <p>
+          Our one-time service fee is <strong>25% of the verified savings</strong> we successfully obtain for you. If we do not obtain qualifying savings, your fee is <strong>$0</strong>.
+        </p>
+        <p className="text-xs text-[#64707A]">
+          "Verified savings" is defined as the mathematical difference between your previous recurring monthly cost and your new negotiated recurring monthly cost, multiplied by the confirmed savings period (up to 12 months).
+        </p>
+      </div>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">3. Success Fee Authorization & Payment</h2>
+      <p>
+        You are never billed upfront upon submitting a bill for review. Payment of the 25% success fee is authorized only after we deliver your Verified Savings Report with carrier confirmation codes demonstrating that the savings have been applied to your account.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">4. 60-Day Savings Guarantee & Refund Policy</h2>
+      <p>
+        If your service provider does not honor the negotiated rate, rescinds the discount, or charges higher recurring fees on your subsequent billing statement within 60 days of the negotiation, Bill Less America will either resolve the issue with the carrier or issue an immediate 100% refund of your success fee. See our full <a href="/refund-policy" className="text-[#D71920] underline font-bold">Refund & Billing Dispute Policy</a>.
+      </p>
+
+      <h2 className="text-lg font-bold text-[#0D1B2A] pt-3">5. Independent Negotiation Service</h2>
+      <p>
+        Bill Less America is an independent consumer rate negotiation service and is not an agent of, affiliate of, or partner with Comcast, AT&T, Spectrum, Verizon, Cox, or any other carrier.
+      </p>
+    </div>
+  );
+};
+
+export const DisclaimerPage: React.FC = () => {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-6 text-sm text-[#0D1B2A] leading-relaxed">
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="font-display text-3xl font-extrabold text-[#0D1B2A]">Disclaimers & Disclosures</h1>
+        <p className="text-xs text-[#64707A] mt-1">Bill Less America • Houston, Texas</p>
+      </div>
+      
+      <p>
+        <strong>Independent Service Provider:</strong> Bill Less America is an independent consumer advocacy and rate negotiation service headquartered at 2827 Dunvale Rd, Houston, TX 77063.
+      </p>
+
+      <p>
+        <strong>Non-Affiliation:</strong> Bill Less America is NOT affiliated with, sponsored by, endorsed by, or an authorized dealer for Comcast / Xfinity, AT&T, Spectrum / Charter Communications, Verizon Communications, Cox Communications, Frontier Communications, CenturyLink / Brightspeed, or T-Mobile.
+      </p>
+
+      <p>
+        <strong>Trademarks:</strong> All provider brand names, service marks, logos, and trademarks shown on this website are the property of their respective owners. They are used on this site solely for purposes of nominative fair use to describe the telecommunications and utility services that Bill Less America negotiates on behalf of consumers.
+      </p>
+
+      <p>
+        <strong>No Guarantee of Carrier Policy:</strong> While our team has an extensive track record of negotiating rate reductions, final approval of promotional discounts and loyalty credits rests with the third-party service provider. If no qualifying savings can be obtained, the consumer incurs no fee ($0).
+      </p>
+    </div>
+  );
+};
+
+export const AccessibilityPage: React.FC = () => {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 space-y-6 text-sm text-[#0D1B2A] leading-relaxed">
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="font-display text-3xl font-extrabold text-[#0D1B2A]">Accessibility Statement</h1>
+        <p className="text-xs text-[#64707A] mt-1">Commitment to Digital Accessibility</p>
+      </div>
+      <p>
+        Bill Less America is committed to ensuring that our website and bill review services are accessible to all individuals, including people with disabilities. We adhere to Web Content Accessibility Guidelines (WCAG) 2.1 Level AA principles to ensure high contrast, keyboard navigability, and clear document hierarchy.
+      </p>
+      <p>
+        If you encounter any accessibility barrier on our website, or require assistance submitting your bill information, please contact our dedicated accessibility phone hotline at <strong>(832) 554-6367</strong> or email <strong>accessibility@billlessamerica.com</strong>.
+      </p>
     </div>
   );
 };
