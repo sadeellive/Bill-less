@@ -1,0 +1,8 @@
+steps:
+  - name: 'gcr.io/k8s-skaffold/pack'
+    args:
+      - 'build'
+      - 'gcr.io/$PROJECT_ID/bill-less'
+      - '--builder=gcr.io/buildpacks/builder:v1'
+options:
+  logging: CLOUD_LOGGING_ONLY
